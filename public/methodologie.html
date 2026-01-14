@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Méthodologie - MonVote</title>
+  <meta name="description" content="Comment fonctionne MonVote : sources, algorithme, limites et transparence">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .methodology-section {
+      margin-bottom: 50px;
+    }
+
+    .methodology-section h2 {
+      color: var(--primary);
+      border-bottom: 3px solid var(--primary);
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+
+    .methodology-section h3 {
+      color: var(--secondary);
+      margin-top: 30px;
+      margin-bottom: 15px;
+    }
+
+    .methodology-section p, .methodology-section li {
+      line-height: 1.8;
+      color: #333;
+    }
+
+    .methodology-section ul, .methodology-section ol {
+      margin-left: 30px;
+      margin-bottom: 20px;
+    }
+
+    .info-box {
+      background: #f0f7ff;
+      border-left: 4px solid var(--primary);
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+
+    .warning-box {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+
+    .step-card {
+      background: white;
+      border: 2px solid var(--light);
+      padding: 20px;
+      margin: 15px 0;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .step-number {
+      display: inline-block;
+      background: var(--primary);
+      color: white;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 30px;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+
+    code {
+      background: #f5f5f5;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: monospace;
+      font-size: 0.9em;
+    }
+
+    .disclaimer {
+      background: #f8f9fa;
+      border: 2px solid #dee2e6;
+      padding: 25px;
+      margin-top: 50px;
+      border-radius: 8px;
+      font-size: 0.9em;
+      color: #555;
+    }
+
+    .disclaimer strong {
+      color: #333;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 30px;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/" class="back-link">← Retour au quiz</a>
+
+    <header>
+      <h1>📊 Méthodologie MonVote</h1>
+      <p class="tagline">Transparence et rigueur pour éclairer votre vote</p>
+    </header>
+
+    <!-- Section 1: Comment ça marche -->
+    <section class="methodology-section">
+      <h2>🎯 Comment ça marche ?</h2>
+      <p>
+        MonVote vous aide à identifier les candidats aux municipales 2026 dont les positions correspondent le mieux à vos attentes. Le processus en 4 étapes :
+      </p>
+
+      <div class="step-card">
+        <h3><span class="step-number">1</span>Sélection de votre commune</h3>
+        <p>
+          Choisissez votre commune parmi les 43 communes de Rennes Métropole. Une carte interactive permet de visualiser le territoire et de cliquer directement sur votre commune.
+        </p>
+      </div>
+
+      <div class="step-card">
+        <h3><span class="step-number">2</span>Questions adaptatives</h3>
+        <p>
+          Vous répondez à <strong>10 questions</strong> adaptées au profil de votre commune :
+        </p>
+        <ul>
+          <li><strong>3 questions communes</strong> à toutes les communes (fiscalité, démocratie participative, environnement)</li>
+          <li><strong>Jusqu'à 4 questions selon les enjeux prioritaires</strong> identifiés pour votre commune (transport, logement, services publics, etc.)</li>
+          <li><strong>3-4 questions complémentaires</strong> pour diversifier les thématiques</li>
+        </ul>
+        <p>
+          Les questions sont formulées différemment selon le profil démographique de votre commune (urbain dense, périurbain en croissance, périurbain stable, rural proche).
+        </p>
+        <p><strong>Exemple :</strong> Pour la question sur les transports, un habitant de Rennes verra "Faut-il prolonger les lignes de métro ?", alors qu'un habitant d'une commune rurale verra "Faut-il développer le transport à la demande ?"</p>
+      </div>
+
+      <div class="step-card">
+        <h3><span class="step-number">3</span>Calcul automatique de compatibilité</h3>
+        <p>
+          Pour chaque candidat, nous calculons un <strong>score de compatibilité</strong> basé sur la distance entre vos réponses et leurs positions documentées.
+        </p>
+        <p>
+          La formule utilisée est la <strong>distance euclidienne normalisée</strong> :
+        </p>
+        <code>score = 100 × (1 - distance / distance_max)</code>
+        <p>
+          Un score de 100% signifie un accord parfait sur toutes les questions. Un score de 0% signifie un désaccord total.
+        </p>
+      </div>
+
+      <div class="step-card">
+        <h3><span class="step-number">4</span>Résultats détaillés</h3>
+        <p>
+          Vous obtenez :
+        </p>
+        <ul>
+          <li>Un <strong>classement des candidats</strong> par ordre de compatibilité</li>
+          <li>Le <strong>score global</strong> et une visualisation colorée (vert ≥70%, orange 50-69%, rouge <50%)</li>
+          <li>Des <strong>détails par thème</strong> (transport, logement, environnement, etc.)</li>
+          <li>Les <strong>propositions concrètes</strong> de chaque candidat (si disponibles)</li>
+          <li>L'identification du <strong>maire sortant</strong> (badge spécial)</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Section 2: Sources des données -->
+    <section class="methodology-section">
+      <h2>📚 Sources des données</h2>
+      <p>
+        MonVote agrège des données provenant de <strong>sources publiques fiables</strong> :
+      </p>
+
+      <h3>1. Candidats et listes</h3>
+      <ul>
+        <li><strong>Recherche web automatisée</strong> via l'API Claude d'Anthropic (web_search_2026_01)</li>
+        <li><strong>Sites officiels</strong> : pagesjaunes.fr/municipales, France Bleu, Ouest-France, Le Télégramme</li>
+        <li><strong>Registre national des élus</strong> pour les maires sortants</li>
+        <li><strong>Données élections 2020</strong> en fallback si aucun candidat 2026 déclaré</li>
+      </ul>
+
+      <h3>2. Programmes et propositions</h3>
+      <ul>
+        <li><strong>Tracts de campagne</strong> : vous pouvez contribuer en uploadant des tracts, analysés automatiquement par Claude Vision</li>
+        <li><strong>Sites de campagne</strong> des candidats</li>
+        <li><strong>Articles de presse locale</strong></li>
+        <li><strong>Communiqués de presse</strong> officiels</li>
+      </ul>
+
+      <h3>3. Données géographiques</h3>
+      <ul>
+        <li><strong>API geo.gouv.fr</strong> pour les limites communales, population, superficie</li>
+        <li><strong>Base OpenStreetMap</strong> pour la carte interactive</li>
+      </ul>
+
+      <div class="info-box">
+        <p><strong>🔍 Transparence :</strong> Toutes les sources sont tracées en base de données (<code>source_type</code> : <code>web_search</code>, <code>tract_auto</code>, <code>tract_manual</code>, <code>admin</code>). L'interface admin permet de consulter l'origine de chaque information.</p>
+      </div>
+    </section>
+
+    <!-- Section 3: Algorithme de calcul -->
+    <section class="methodology-section">
+      <h2>🧮 Algorithme de calcul du score</h2>
+      <p>
+        Le score de compatibilité est calculé en 3 étapes :
+      </p>
+
+      <h3>Étape 1 : Comparaison question par question</h3>
+      <p>
+        Pour chaque question, nous calculons la différence absolue entre votre réponse (1-5) et la position du candidat (1-5).
+      </p>
+      <p><strong>Exemple :</strong></p>
+      <ul>
+        <li>Vous : "Développer fortement les transports" → valeur 5</li>
+        <li>Candidat A : "Développer un peu" → valeur 4</li>
+        <li>Différence : |5 - 4| = 1</li>
+      </ul>
+
+      <h3>Étape 2 : Distance euclidienne</h3>
+      <p>
+        Nous agrégeons toutes les différences en calculant la distance euclidienne :
+      </p>
+      <code>distance = √(Σ(votre_réponse - position_candidat)²)</code>
+      <p>
+        Cette formule mathématique donne plus de poids aux grands désaccords qu'aux petites différences.
+      </p>
+
+      <h3>Étape 3 : Normalisation en pourcentage</h3>
+      <p>
+        La distance est convertie en score de 0% à 100% :
+      </p>
+      <code>score = 100 × (1 - distance / distance_max)</code>
+      <p>
+        Où <code>distance_max = √(nombre_questions × 4²)</code> est la distance maximale théorique (total désaccord sur toutes les questions).
+      </p>
+
+      <h3>Détail par thème</h3>
+      <p>
+        Le score est également calculé par thème (transport, logement, etc.) pour vous permettre de voir sur quels sujets vous êtes le plus (ou le moins) aligné avec chaque candidat.
+      </p>
+    </section>
+
+    <!-- Section 4: Limites et biais -->
+    <section class="methodology-section">
+      <h2>⚠️ Limites et prudence</h2>
+      <div class="warning-box">
+        <p><strong>MonVote est un outil d'aide à la décision, pas un oracle.</strong></p>
+        <p>Plusieurs limites importantes à garder en tête :</p>
+      </div>
+
+      <h3>1. Positions documentées uniquement</h3>
+      <p>
+        Les candidats sont positionnés uniquement sur les questions pour lesquelles nous avons trouvé des informations publiques. Si un candidat n'a pas encore diffusé son programme, ses positions sont extrapolées ou marquées comme "données insuffisantes".
+      </p>
+
+      <h3>2. Simplification des positions</h3>
+      <p>
+        Les positions politiques réelles sont nuancées. Les réduire à une échelle 1-5 implique une simplification. Deux candidats avec le même score de 4/5 peuvent avoir des approches très différentes.
+      </p>
+
+      <h3>3. Questions non exhaustives</h3>
+      <p>
+        10 questions ne couvrent pas tous les enjeux locaux. Des thèmes importants peuvent manquer (culture, associations, numérique, etc.). Le quiz évolue en fonction des retours.
+      </p>
+
+      <h3>4. Biais de l'algorithme de positionnement</h3>
+      <p>
+        Le positionnement automatique des candidats est effectué par Claude (IA d'Anthropic) à partir de textes publics. L'algorithme peut mal interpréter une proposition ambiguë ou manquer de contexte.
+      </p>
+
+      <h3>5. Absence de données sur la personnalité</h3>
+      <p>
+        MonVote mesure l'alignement programmatique, pas la capacité à mettre en œuvre, la personnalité, l'expérience ou la crédibilité des candidats. Ces aspects humains sont essentiels et ne sont pas capturés.
+      </p>
+
+      <div class="info-box">
+        <p><strong>💡 Recommandation :</strong> Utilisez MonVote comme un premier filtre, puis <strong>creusez</strong> : lisez les programmes complets, assistez aux réunions publiques, posez vos questions aux candidats.</p>
+      </div>
+    </section>
+
+    <!-- Section 5: Protection des données -->
+    <section class="methodology-section">
+      <h2>🔒 Protection des données personnelles</h2>
+      <p>
+        MonVote respecte scrupuleusement votre vie privée :
+      </p>
+
+      <h3>Données collectées</h3>
+      <ul>
+        <li><strong>Session anonyme</strong> : un identifiant unique généré aléatoirement (UUID)</li>
+        <li><strong>Vos réponses au quiz</strong> (stockées de manière anonyme, sans lien avec votre identité)</li>
+        <li><strong>Fingerprint hashé</strong> : un identifiant technique de votre navigateur (hashé en SHA-256), utilisé uniquement pour le rate limiting anti-abus</li>
+        <li><strong>IP hashée</strong> : votre adresse IP (hashée en SHA-256), utilisée uniquement pour le rate limiting</li>
+        <li><strong>Logs d'audit</strong> : actions système (uploads de tracts, validations) avec timestamps, sans données personnelles</li>
+      </ul>
+
+      <h3>Données NON collectées</h3>
+      <ul>
+        <li>❌ Aucun nom, prénom, email, téléphone</li>
+        <li>❌ Aucune géolocalisation précise</li>
+        <li>❌ Aucun cookie de tracking publicitaire</li>
+        <li>❌ Aucune revente de données à des tiers</li>
+      </ul>
+
+      <h3>Durée de conservation</h3>
+      <ul>
+        <li><strong>Sessions</strong> : 90 jours après création</li>
+        <li><strong>Rate limits</strong> : 30 jours glissants</li>
+        <li><strong>Logs d'audit</strong> : 90 jours</li>
+        <li><strong>Tracts</strong> : conservés indéfiniment une fois validés (informations publiques)</li>
+      </ul>
+
+      <h3>Système anti-abus</h3>
+      <p>
+        Pour protéger l'application contre les manipulations, MonVote implémente :
+      </p>
+      <ul>
+        <li><strong>Rate limiting</strong> : nombre limité d'actions par jour (5 uploads de tracts/jour/IP, 50 quiz/jour/IP)</li>
+        <li><strong>Détection de doublons</strong> : hash perceptuel (pHash) pour identifier les tracts déjà uploadés</li>
+        <li><strong>Validation Claude</strong> : analyse automatique des tracts (détection de discours haineux, vérification qu'il s'agit bien d'un document électoral)</li>
+        <li><strong>Modération manuelle</strong> : interface admin pour valider les soumissions suspectes</li>
+      </ul>
+
+      <div class="info-box">
+        <p><strong>🔐 Conformité RGPD :</strong> MonVote ne traite que des données anonymes ou pseudonymisées. Aucune donnée personnelle identifiante n'est collectée. Pas besoin de consentement cookies (sauf cookies strictement nécessaires au fonctionnement).</p>
+      </div>
+    </section>
+
+    <!-- Section 6: Financement et indépendance -->
+    <section class="methodology-section">
+      <h2>💰 Financement et indépendance</h2>
+      <p>
+        MonVote est un projet <strong>100% indépendant et bénévole</strong>, développé par Claude (IA d'Anthropic) et un citoyen engagé.
+      </p>
+
+      <h3>Sources de financement</h3>
+      <ul>
+        <li><strong>Aucun</strong> financement par un parti politique</li>
+        <li><strong>Aucun</strong> financement par une entreprise privée</li>
+        <li><strong>Aucune</strong> publicité</li>
+        <li><strong>Coûts API Claude</strong> : pris en charge personnellement (budget ~100€)</li>
+        <li><strong>Hébergement Vercel</strong> : gratuit (tier hobby)</li>
+        <li><strong>Base de données Supabase</strong> : gratuit (tier gratuit)</li>
+      </ul>
+
+      <h3>Objectif</h3>
+      <p>
+        Fournir un <strong>service d'intérêt général</strong> pour éclairer le vote aux municipales 2026, sans biais partisan, sans agenda caché.
+      </p>
+
+      <p>
+        Le code source est <strong>ouvert</strong> et disponible sur <a href="https://github.com" target="_blank">GitHub</a> (à venir). Toute contribution est bienvenue.
+      </p>
+    </section>
+
+    <!-- Disclaimer légal -->
+    <div class="disclaimer">
+      <h3 style="margin-top: 0;">⚖️ Disclaimer électoral</h3>
+      <p>
+        <strong>MonVote n'est pas affilié à la Commission nationale des comptes de campagne et des financements politiques (CNCCFP), au ministère de l'Intérieur, ni à aucune collectivité locale.</strong>
+      </p>
+      <p>
+        Les informations fournies par MonVote sont issues de sources publiques et ne constituent en aucun cas un conseil de vote officiel. L'utilisateur conserve sa pleine liberté de jugement et de vote.
+      </p>
+      <p>
+        Les scores calculés reflètent uniquement l'alignement programmatique théorique et ne préjugent en rien de la capacité d'un candidat à exercer un mandat électoral.
+      </p>
+      <p>
+        MonVote s'engage à respecter la période de réserve électorale et à ne publier aucun résultat de quiz du vendredi minuit précédant le scrutin jusqu'à la fermeture des bureaux de vote.
+      </p>
+      <p style="margin-bottom: 0;">
+        <strong>En cas d'erreur manifeste</strong> dans les données présentées, contactez-nous via l'interface admin ou par email à <a href="mailto:contact@monvote.fr">contact@monvote.fr</a> (fictif).
+      </p>
+    </div>
+
+    <div class="actions" style="margin-top: 40px;">
+      <a href="/" class="btn btn-primary">🗳️ Faire le quiz</a>
+      <a href="/contribuer.html" class="btn btn-outline">💡 Contribuer</a>
+    </div>
+  </div>
+
+  <footer>
+    <p>MonVote - Municipales 2026 - Rennes Métropole</p>
+    <p>
+      <a href="/admin/index.html">Admin</a> |
+      <a href="/methodologie.html">Méthodologie</a> |
+      <a href="https://github.com">Code source</a>
+    </p>
+  </footer>
+</body>
+</html>

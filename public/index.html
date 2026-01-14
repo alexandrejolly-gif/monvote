@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MonVote - Quiz Electoral Municipales 2026</title>
+  <meta name="description" content="Découvrez quel candidat vous correspond le mieux pour les municipales 2026">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-content">
+        <div>
+          <h1 id="app-title"><span data-icon="vote"></span> MonVote</h1>
+          <p class="tagline">Trouvez le candidat qui vous correspond</p>
+        </div>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Basculer le mode sombre">
+          <span class="theme-icon sun" data-icon="sun"></span>
+          <span class="theme-icon moon" data-icon="moon"></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Étape 1 : Choix de la commune -->
+    <section id="step-commune" class="step active">
+      <h2>Où votez-vous ?</h2>
+
+      <div class="commune-choice-inline">
+        <select id="commune-select" class="commune-select-inline">
+          <option value="">Sélectionnez votre commune...</option>
+        </select>
+        <button id="btn-geoloc" class="btn btn-secondary btn-geoloc-inline">
+          <span data-icon="map-pin"></span> Me localiser
+        </button>
+      </div>
+
+      <div id="map-container" style="height: 400px; margin-top: 20px; border-radius: 8px; overflow: hidden;"></div>
+
+      <div class="actions">
+        <button id="btn-start-quiz" class="btn btn-primary btn-start-quiz-main" disabled>
+          Commencer le quiz →
+        </button>
+      </div>
+
+      <div class="contribute-link">
+        <a href="/contribuer.html"><span data-icon="lightbulb"></span> Vous avez des tracts de campagne ? Contribuez !</a>
+      </div>
+    </section>
+
+    <!-- Étape 2 : Info commune sélectionnée -->
+    <section id="step-commune-info" class="step">
+      <div class="commune-info-card">
+        <!-- Photo de la commune -->
+        <div id="commune-photo-container" class="commune-photo-container">
+          <img id="commune-photo" class="commune-photo" src="" alt="Photo de la commune">
+          <div class="commune-photo-overlay">
+            <div>
+              <span id="commune-photo-name" class="commune-photo-name"></span>
+              <div id="maire-badge" class="maire-badge" style="display: none;">
+                <span class="maire-icon" data-icon="necktie"></span>
+                <span id="maire-nom"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="commune-info-stats">
+          <div class="stat-item">
+            <div class="stat-icon" data-icon="users" data-icon-size="32"></div>
+            <div class="stat-content">
+              <div class="stat-value" id="info-population">-</div>
+              <div class="stat-label">habitants</div>
+            </div>
+          </div>
+
+          <div class="stat-item">
+            <div class="stat-icon" data-icon="vote" data-icon-size="32"></div>
+            <div class="stat-content">
+              <div class="stat-value" id="info-candidats">-</div>
+              <div class="stat-label">candidats</div>
+            </div>
+          </div>
+
+          <div class="stat-item">
+            <div class="stat-icon" data-icon="edit" data-icon-size="32"></div>
+            <div class="stat-content">
+              <div class="stat-value" id="info-questions">15</div>
+              <div class="stat-label">questions</div>
+            </div>
+          </div>
+
+          <div class="stat-item">
+            <div class="stat-icon" data-icon="clock" data-icon-size="32"></div>
+            <div class="stat-content">
+              <div class="stat-value">3-5</div>
+              <div class="stat-label">minutes</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Liste des candidats en accordéon -->
+        <div id="candidats-section" class="candidats-accordion" style="display: none;">
+          <button class="accordion-toggle" id="accordion-candidats-toggle" onclick="toggleCandidats()">
+            <span><span data-icon="vote"></span> Voir les <span id="nb-candidats-display">0</span> candidats</span>
+            <span class="accordion-icon">▼</span>
+          </button>
+          <div class="accordion-content" id="candidats-liste" style="display: none;"></div>
+        </div>
+
+        <div class="commune-info-details">
+          <div class="info-grid">
+            <div class="info-column">
+              <h3><span data-icon="info"></span> Ce quiz est basé sur :</h3>
+              <ul class="info-list">
+                <li><span data-icon="check"></span> Les propositions des candidats déclarés</li>
+                <li><span data-icon="check"></span> Les enjeux locaux spécifiques à votre commune</li>
+              </ul>
+            </div>
+            <div class="info-column">
+              <h3><span data-icon="lock"></span> Transparence :</h3>
+              <p class="info-note">
+                Les questions sont générées de manière neutre.
+                Vos réponses restent anonymes et ne sont pas conservées.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="actions actions-info-commune">
+          <a href="#" id="link-back-to-map" class="link-change-commune"><span data-icon="arrow-left"></span> Changer de commune</a>
+          <button id="btn-start-quiz-confirm" class="btn btn-primary btn-start-quiz-main"><span data-icon="target"></span> Commencer le quiz</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Étape 3 : Quiz -->
+    <section id="step-quiz" class="step">
+      <div class="quiz-header-compact">
+        <a href="#" id="link-back-to-commune" class="link-back-quiz"><span data-icon="arrow-left"></span></a>
+        <div class="quiz-title-progress">
+          <h2 id="quiz-commune">Quiz</h2>
+          <div class="progress-inline">
+            <div class="progress-bar">
+              <div id="progress-fill" class="progress-fill"></div>
+            </div>
+            <p class="progress-text">Q<span id="current-question">1</span>/<span id="total-questions">10</span></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="current-theme-badge">
+        <span class="theme-emoji" id="current-theme-emoji">📋</span>
+        <span class="theme-label" id="current-theme-label">THÈME</span>
+      </div>
+
+      <div id="quiz-content" class="quiz-content">
+        <!-- Questions générées dynamiquement -->
+      </div>
+
+      <div class="quiz-nav quiz-nav-sticky">
+        <button id="btn-prev" class="btn btn-secondary" disabled><span data-icon="arrow-left"></span> Précédent</button>
+        <button id="btn-next" class="btn btn-primary" disabled>Suivant <span data-icon="arrow-right"></span></button>
+        <button id="btn-results" class="btn btn-success" style="display:none;">Voir les résultats <span data-icon="target"></span></button>
+      </div>
+    </section>
+
+    <!-- Étape 3 : Résultats -->
+    <section id="step-results" class="step">
+      <h2>Vos résultats - <span id="results-commune-name"></span></h2>
+
+      <div id="results-list" class="results-list">
+        <!-- Résultats générés dynamiquement -->
+      </div>
+
+      <div class="actions">
+        <button id="btn-share" class="btn btn-primary"><span data-icon="send"></span> Partager mes résultats</button>
+        <button id="btn-restart" class="btn btn-secondary"><span data-icon="refresh"></span> Recommencer</button>
+        <a href="/contribuer.html" class="btn btn-outline"><span data-icon="lightbulb"></span> Contribuer</a>
+      </div>
+    </section>
+
+    <!-- Loading -->
+    <div id="loading" class="loading" style="display:none;">
+      <div class="spinner"></div>
+      <p id="loading-message">Chargement...</p>
+      <div class="loading-progress">
+        <div id="loading-progress-bar" class="loading-progress-bar"></div>
+      </div>
+      <p id="loading-percentage" class="loading-percentage">0%</p>
+    </div>
+  </div>
+
+  <footer>
+    <p>MonVote - Municipales 2026 - Rennes Métropole</p>
+    <p><a href="/admin/index.html">Admin</a> | <a href="https://github.com">Code source</a></p>
+  </footer>
+
+  <!-- Theme Switcher -->
+  <div class="theme-switcher">
+    <button class="theme-switcher-toggle" onclick="toggleThemeMenu()" title="Changer le style">
+      🎨
+    </button>
+    <div class="theme-menu" id="theme-menu">
+      <div class="theme-menu-header">Style visuel</div>
+      <button class="theme-option" data-theme="default" onclick="setTheme('default')">
+        <span class="theme-preview default"></span>
+        Violet (défaut)
+      </button>
+      <button class="theme-option" data-theme="civique" onclick="setTheme('civique')">
+        <span class="theme-preview civique"></span>
+        Civique
+      </button>
+      <button class="theme-option" data-theme="nature" onclick="setTheme('nature')">
+        <span class="theme-preview nature"></span>
+        Bretagne
+      </button>
+      <button class="theme-option" data-theme="sunset" onclick="setTheme('sunset')">
+        <span class="theme-preview sunset"></span>
+        Sunset
+      </button>
+      <button class="theme-option" data-theme="minimal" onclick="setTheme('minimal')">
+        <span class="theme-preview minimal"></span>
+        Minimal
+      </button>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="icon-config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Upload Tract (Sans coûts API)</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    h1 {
+      color: #667eea;
+      margin: 0 0 10px 0;
+    }
+    .subtitle {
+      color: #666;
+      margin: 0 0 30px 0;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin: 20px 0 8px 0;
+      color: #333;
+    }
+    select, input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    button {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 20px;
+      width: 100%;
+    }
+    button:hover {
+      background: #5568d3;
+    }
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 8px;
+      display: none;
+    }
+    .result.success {
+      background: #d1fae5;
+      border: 2px solid #10b981;
+      display: block;
+    }
+    .result.error {
+      background: #fee2e2;
+      border: 2px solid #ef4444;
+      display: block;
+    }
+    .result h3 {
+      margin: 0 0 15px 0;
+    }
+    .result pre {
+      background: white;
+      padding: 15px;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-size: 13px;
+    }
+    .scenario-info {
+      background: #f9fafb;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 15px 0;
+      font-size: 14px;
+      color: #666;
+    }
+    .scenario-info strong {
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>🧪 Test Upload Tract</h1>
+    <p class="subtitle">⚠️ ATTENTION: Cette page est pour TESTER le système sans coûts API</p>
+    <p style="background:#fff3cd;padding:15px;border-radius:8px;border-left:4px solid #ffc107;margin:20px 0;">
+      <strong>💡 Comment ça marche?</strong><br>
+      • Vous ne uploadez PAS de vraie image<br>
+      • Vous choisissez un scénario de test ci-dessous<br>
+      • Le système simule l'analyse avec des fausses données<br>
+      • Vous voyez le résultat SANS dépenser d'argent<br>
+      <br>
+      <strong>📌 Pour uploader de VRAIES images:</strong> <a href="/contribuer.html" style="color:#667eea">Utilisez la page Contribuer</a>
+    </p>
+
+    <label for="commune">Commune:</label>
+    <input type="text" id="commune" value="35360" placeholder="Code INSEE (ex: 35360)">
+
+    <label for="scenario">Scénario de test:</label>
+    <select id="scenario">
+      <option value="liste_4_candidats">✅ Tract liste unique - 4 candidats même parti (VALIDE)</option>
+      <option value="candidat_individuel">✅ Candidat individuel - Vitré 2026 (VALIDE)</option>
+      <option value="tract_comparatif">✅ Tract comparatif - 4 candidats, partis différents (VALIDE)</option>
+      <option value="sans_2026">❌ Tract sans mention 2026 (REJETÉ)</option>
+      <option value="mauvaise_commune">❌ Tract pour une autre commune (REJETÉ)</option>
+    </select>
+
+    <div class="scenario-info" id="scenarioInfo"></div>
+
+    <button onclick="testUpload(event)">Tester l'Upload</button>
+
+    <div id="result" class="result"></div>
+  </div>
+
+  <script>
+    const scenarioDescriptions = {
+      'liste_4_candidats': {
+        desc: 'Liste électorale unique - 4 candidats du même parti (Divers Gauche), même liste (Ensemble pour Vitré)',
+        expected: 'Auto-approuvé (92%), 4 candidats ajoutés avec même parti/liste'
+      },
+      'candidat_individuel': {
+        desc: 'Candidat seul avec mention du département (35) et 2026',
+        expected: 'Auto-approuvé (92%), 1 candidat ajouté'
+      },
+      'tract_comparatif': {
+        desc: 'Tract comparatif présentant 4 candidats de partis DIFFÉRENTS (DD, DG, EELV, RN) avec leurs listes respectives',
+        expected: 'Auto-approuvé (92%), 4 candidats ajoutés avec chacun son parti/liste'
+      },
+      'sans_2026': {
+        desc: 'Tract valide SAUF mention 2026 absente',
+        expected: 'En attente (20%), nécessite validation manuelle'
+      },
+      'mauvaise_commune': {
+        desc: 'Tract mentionnant explicitement "Rennes" au lieu de "Vitré"',
+        expected: 'En attente (30%), commune incorrecte'
+      }
+    };
+
+    document.getElementById('scenario').addEventListener('change', updateScenarioInfo);
+    updateScenarioInfo();
+
+    function updateScenarioInfo() {
+      const scenario = document.getElementById('scenario').value;
+      const info = scenarioDescriptions[scenario];
+      const infoDiv = document.getElementById('scenarioInfo');
+
+      if (info) {
+        infoDiv.innerHTML = `
+          <strong>📋 Description:</strong> ${info.desc}<br>
+          <strong>🎯 Résultat attendu:</strong> ${info.expected}
+        `;
+      }
+    }
+
+    async function testUpload(event) {
+      const button = event.target;
+      const resultDiv = document.getElementById('result');
+      const commune = document.getElementById('commune').value;
+      const scenario = document.getElementById('scenario').value;
+
+      button.disabled = true;
+      button.textContent = 'Test en cours...';
+      resultDiv.className = 'result';
+      resultDiv.style.display = 'none';
+
+      try {
+        console.log('Envoi de la requête...');
+        const response = await fetch('/api/test-upload', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ commune_code: commune, scenario })
+        });
+
+        console.log('Réponse reçue:', response.status);
+        const data = await response.json();
+        console.log('Données:', data);
+
+        if (data.success) {
+          console.log('Affichage du succès');
+          resultDiv.className = 'result success';
+          resultDiv.style.display = 'block';
+          resultDiv.innerHTML = `
+            <h3>✅ Test réussi</h3>
+            <p><strong>Scénario:</strong> ${scenario}</p>
+            <p><strong>Statut:</strong> ${data.status === 'auto_approved' ? '🟢 Auto-approuvé' : '🟡 En attente de validation'}</p>
+            <p><strong>Candidats extraits:</strong> ${data.candidats_extraits}</p>
+            <p><strong>Score de confiance:</strong> ${Math.round(data.confidence_score * 100)}%</p>
+            <p><strong>Submission ID:</strong> ${data.submission_id}</p>
+            <br>
+            <a href="/api/admin/view-submission" target="_blank" style="color:#667eea;font-weight:600">
+              📄 Voir la dernière soumission
+            </a>
+          `;
+        } else {
+          console.log('Affichage de l\'erreur');
+          resultDiv.className = 'result error';
+          resultDiv.style.display = 'block';
+          resultDiv.innerHTML = `
+            <h3>❌ Erreur</h3>
+            <pre>${JSON.stringify(data, null, 2)}</pre>
+          `;
+        }
+      } catch (error) {
+        console.error('Exception:', error);
+        resultDiv.className = 'result error';
+        resultDiv.style.display = 'block';
+        resultDiv.innerHTML = `
+          <h3>❌ Erreur</h3>
+          <p>${error.message}</p>
+        `;
+      } finally {
+        button.disabled = false;
+        button.textContent = 'Tester l\'Upload';
+      }
+    }
+  </script>
+</body>
+</html>

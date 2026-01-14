@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contribuer - MonVote</title>
+  <meta name="description" content="Aidez-nous à enrichir notre base en partageant vos tracts de campagne">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1><span data-icon="file"></span> Contribuer à MonVote</h1>
+      <p class="tagline">Aidez-nous à enrichir notre base en partageant vos tracts de campagne</p>
+    </header>
+
+    <div class="contribute-container">
+      <div class="info-box">
+        <h3>Comment ça marche ?</h3>
+        <ol>
+          <li>Prenez en photo un tract de campagne municipale 2026</li>
+          <li>Sélectionnez la commune concernée</li>
+          <li>Envoyez : notre IA analysera automatiquement le tract</li>
+          <li>Si la qualité est bonne, votre contribution sera validée immédiatement !</li>
+        </ol>
+      </div>
+
+      <div class="upload-card" id="upload-section">
+        <h2>Importer un tract</h2>
+
+        <div class="upload-zone" id="upload-zone">
+          <div class="upload-icon" data-icon="upload" data-icon-size="48"></div>
+          <p class="upload-text">Glissez une image ici</p>
+          <p class="upload-subtext">ou cliquez pour sélectionner</p>
+          <p class="upload-limit">Max 10 MB - JPG, PNG</p>
+          <input type="file" id="file-input" accept="image/*" hidden>
+        </div>
+
+        <div class="preview-zone" id="preview-zone" style="display:none;">
+          <img id="preview-image" src="" alt="Aperçu">
+          <button class="btn-remove" id="btn-remove" data-icon="x"></button>
+        </div>
+
+        <div class="form-group">
+          <label for="commune-select">Commune concernée *</label>
+          <select id="commune-select" required>
+            <option value="">Sélectionner...</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="email-input">Votre email (optionnel)</label>
+          <input type="email" id="email-input" placeholder="Pour être notifié de la validation">
+          <small>Nous ne partagerons jamais votre email</small>
+        </div>
+
+        <div class="consent-box">
+          <input type="checkbox" id="consent-checkbox" required>
+          <label for="consent-checkbox">
+            J'accepte que ce document soit analysé et partagé pour aider les électeurs
+          </label>
+        </div>
+
+        <button class="btn btn-primary" id="submit-btn" disabled>
+          <span data-icon="send"></span> Envoyer
+        </button>
+      </div>
+
+      <!-- Résultat -->
+      <div class="result-card" id="result-card" style="display:none;">
+        <div class="result-icon" id="result-icon" data-icon="check-circle" data-icon-size="48"></div>
+        <h3 id="result-title">Analyse terminée</h3>
+        <p id="result-message"></p>
+
+        <div class="extracted-data" id="extracted-data" style="display:none;">
+          <h4>Informations extraites :</h4>
+          <div id="extracted-content"></div>
+        </div>
+
+        <div class="result-actions">
+          <button class="btn btn-secondary" id="btn-reset">Ajouter un autre tract</button>
+          <a href="/" class="btn btn-outline">Retour à l'accueil</a>
+        </div>
+      </div>
+
+      <!-- Rate limit info -->
+      <div class="info-box rate-limit-info">
+        <p><span data-icon="info"></span> Limite : 5 envois par jour et par personne</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>MonVote - Municipales 2026 - Rennes Métropole</p>
+    <p><a href="/">Retour à l'accueil</a></p>
+  </footer>
+
+  <script src="icon-config.js"></script>
+  <script src="contribuer.js"></script>
+</body>
+</html>

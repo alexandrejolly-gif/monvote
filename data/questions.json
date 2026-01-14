@@ -1,0 +1,276 @@
+{
+  "questions": [
+    {
+      "code": "TRANSPORT_01",
+      "categorie": "transport",
+      "theme": "Transport",
+      "texte_generique": "Faut-il développer les transports en commun ?",
+      "texte_urbain_dense": "Faut-il prolonger les lignes de métro vers de nouveaux quartiers ?",
+      "texte_periurbain_croissance": "Faut-il créer des lignes de bus express vers le centre de Rennes ?",
+      "texte_periurbain_stable": "Faut-il améliorer la fréquence des bus vers Rennes ?",
+      "texte_rural_proche": "Faut-il développer le transport à la demande et le covoiturage organisé ?",
+      "options": [
+        { "id": 1, "texte": "Non, trop coûteux", "valeur": 1 },
+        { "id": 2, "texte": "Plutôt non", "valeur": 2 },
+        { "id": 3, "texte": "Neutre", "valeur": 3 },
+        { "id": 4, "texte": "Plutôt oui", "valeur": 4 },
+        { "id": 5, "texte": "Oui, priorité absolue", "valeur": 5 }
+      ]
+    },
+    {
+      "code": "TRANSPORT_02",
+      "categorie": "transport",
+      "theme": "Transport",
+      "texte_generique": "Quelle place pour la voiture ?",
+      "texte_urbain_dense": "Faut-il réduire les places de stationnement en centre-ville ?",
+      "texte_periurbain_croissance": "Faut-il créer des parkings-relais aux entrées de commune ?",
+      "texte_periurbain_stable": "Faut-il maintenir le stationnement gratuit au centre-bourg ?",
+      "texte_rural_proche": "Faut-il faciliter l'accès en voiture au centre-bourg ?",
+      "options": [
+        { "id": 1, "texte": "Réduire fortement la place auto", "valeur": 1 },
+        { "id": 2, "texte": "Réduire un peu", "valeur": 2 },
+        { "id": 3, "texte": "Maintenir l'équilibre", "valeur": 3 },
+        { "id": 4, "texte": "Faciliter l'accès auto", "valeur": 4 },
+        { "id": 5, "texte": "Priorité totale à la voiture", "valeur": 5 }
+      ]
+    },
+    {
+      "code": "TRANSPORT_03",
+      "categorie": "transport",
+      "theme": "Transport",
+      "texte_generique": "Faut-il développer les pistes cyclables ?",
+      "texte_urbain_dense": "Faut-il créer un réseau express vélo (REV) sur les grands axes ?",
+      "texte_periurbain_croissance": "Faut-il relier votre commune à Rennes par une voie cyclable sécurisée ?",
+      "texte_periurbain_stable": "Faut-il créer des pistes cyclables vers les communes voisines ?",
+      "texte_rural_proche": "Faut-il aménager des itinéraires cyclables vers les bourgs voisins ?",
+      "options": [
+        { "id": 1, "texte": "Non, pas utile", "valeur": 1 },
+        { "id": 2, "texte": "Plutôt non", "valeur": 2 },
+        { "id": 3, "texte": "Neutre", "valeur": 3 },
+        { "id": 4, "texte": "Plutôt oui", "valeur": 4 },
+        { "id": 5, "texte": "Oui, priorité", "valeur": 5 }
+      ]
+    },
+    {
+      "code": "LOGEMENT_01",
+      "categorie": "logement",
+      "theme": "Logement",
+      "texte_generique": "Faut-il construire plus de logements ?",
+      "texte_urbain_dense": "Faut-il densifier les quartiers pavillonnaires proches du métro ?",
+      "texte_periurbain_croissance": "Faut-il limiter les nouvelles constructions pour préserver le cadre de vie ?",
+      "texte_periurbain_stable": "Faut-il encourager la rénovation plutôt que la construction neuve ?",
+      "texte_rural_proche": "Faut-il attirer de nouveaux habitants pour maintenir les services ?",
+      "options": [
+        { "id": 1, "texte": "Stopper les constructions", "valeur": 1 },
+        { "id": 2, "texte": "Limiter fortement", "valeur": 2 },
+        { "id": 3, "texte": "Maintenir le rythme", "valeur": 3 },
+        { "id": 4, "texte": "Construire un peu plus", "valeur": 4 },
+        { "id": 5, "texte": "Construire beaucoup plus", "valeur": 5 }
+      ]
+    },
+    {
+      "code": "LOGEMENT_02",
+      "categorie": "logement",
+      "theme": "Logement",
+      "texte_generique": "Quelle part de logements sociaux ?",
+      "texte_urbain_dense": "Faut-il atteindre 30% de logements sociaux dans chaque quartier ?",
+      "texte_periurbain_croissance": "Faut-il imposer 25% de logements sociaux dans les nouveaux programmes ?",
+      "texte_periurbain_stable": "Faut-il développer le logement social pour les jeunes et seniors ?",
+      "texte_rural_proche": "Faut-il créer des logements adaptés aux personnes âgées ?",
+      "options": [
+        { "id": 1, "texte": "Pas plus de social", "valeur": 1 },
+        { "id": 2, "texte": "Maintenir le niveau", "valeur": 2 },
+        { "id": 3, "texte": "Neutre", "valeur": 3 },
+        { "id": 4, "texte": "Augmenter un peu", "valeur": 4 },
+        { "id": 5, "texte": "Augmenter fortement", "valeur": 5 }
+      ]
+    },
+    {
+      "code": "ENVIRO_01",
+      "categorie": "environnement",
+      "theme": "Environnement",
+      "texte_generique": "Quelle politique de végétalisation ?",
+      "texte_urbain_dense": "Faut-il végétaliser les cours d'école et créer des îlots de fraîcheur ?",
+      "texte_periurbain_croissance": "Faut-il imposer un coefficient de pleine terre dans les nouveaux lotissements ?",
+      "texte_periurbain_stable": "Faut-il planter des haies bocagères et arbres d'alignement ?",
+      "texte_rural_proche": "Faut-il protéger les zones humides et corridors écologiques ?",
+      "options": [
+        { "id": 1, "texte": "Pas une priorité", "valeur": 1 },
+        { "id": 2, "texte": "Effort limité", "valeur": 2 },
+        { "id": 3, "texte": "Neutre", "valeur": 3 },
+        { "id": 4, "texte": "Effort significatif", "valeur": 4 },
+        { "id": 5, "texte": "Priorité absolue", "valeur": 5 }
+      ]
+    },
+    {
+      "code": "ENVIRO_02",
+      "categorie": "environnement",
+      "theme": "Environnement",
+      "texte_generique": "Quelle gestion des déchets ?",
+      "texte_urbain_dense": "Faut-il passer à la tarification incitative (payer au poids) ?",
+      "texte_periurbain_croissance": "Faut-il développer le compostage collectif dans les quartiers ?",
+      "texte_periurbain_stable": "Faut-il créer une ressourcerie/recyclerie communale ?",
+      "texte_rural_proche": "Faut-il maintenir la collecte en porte-à-porte malgré le coût ?",
+      "options": [
+        { "id": 1, "texte": "Système actuel OK", "valeur": 1 },
+        { "id": 2, "texte": "Améliorations mineures", "valeur": 2 },
+        { "id": 3, "texte": "Neutre", "valeur": 3 },
+        { "id": 4, "texte": "Réformes significatives", "valeur": 4 },
+        { "id": 5, "texte": "Transformation complète", "valeur": 5 }
+      ]
+    },
+    {
+      "code": "SERVICES_01",
+      "categorie": "services_publics",
+      "theme": "Services publics",
+      "texte_generique": "Quelle organisation des services publics ?",
+      "texte_urbain_dense": "Faut-il ouvrir les équipements municipaux le dimanche ?",
+      "texte_periurbain_croissance": "Faut-il construire de nouvelles écoles face à la croissance démographique ?",
+      "texte_periurbain_stable": "Faut-il maintenir tous les services publics de proximité ?",
+      "texte_rural_proche": "Faut-il mutualiser les services avec les communes voisines ?",
+      "options": [
+        { "id": 1, "texte": "Réduire les services", "valeur": 1 },
+        { "id": 2, "texte": "Optimiser l'existant", "valeur": 2 },
+        { "id": 3, "texte": "Maintenir", "valeur": 3 },
+        { "id": 4, "texte": "Développer un peu", "valeur": 4 },
+        { "id": 5, "texte": "Investir massivement", "valeur": 5 }
+      ]
+    },
+    {
+      "code": "SERVICES_02",
+      "categorie": "services_publics",
+      "theme": "Services publics",
+      "texte_generique": "Quel niveau d'équipements sportifs ?",
+      "texte_urbain_dense": "Faut-il créer des équipements sportifs de plein air dans les parcs ?",
+      "texte_periurbain_croissance": "Faut-il construire un nouveau complexe sportif ?",
+      "texte_periurbain_stable": "Faut-il rénover les équipements existants plutôt qu'en créer de nouveaux ?",
+      "texte_rural_proche": "Faut-il développer les parcours sportifs en nature ?",
+      "options": [
+        { "id": 1, "texte": "Suffisant", "valeur": 1 },
+        { "id": 2, "texte": "Optimiser l'existant", "valeur": 2 },
+        { "id": 3, "texte": "Neutre", "valeur": 3 },
+        { "id": 4, "texte": "Développer", "valeur": 4 },
+        { "id": 5, "texte": "Investir fortement", "valeur": 5 }
+      ]
+    },
+    {
+      "code": "ECO_01",
+      "categorie": "economie",
+      "theme": "Économie",
+      "texte_generique": "Quelle politique commerciale ?",
+      "texte_urbain_dense": "Faut-il limiter les dark stores et dark kitchens ?",
+      "texte_periurbain_croissance": "Faut-il limiter l'extension des zones commerciales périphériques ?",
+      "texte_periurbain_stable": "Faut-il soutenir les commerces de centre-bourg ?",
+      "texte_rural_proche": "Faut-il aider à l'installation d'un commerce multi-services ?",
+      "options": [
+        { "id": 1, "texte": "Laisser faire le marché", "valeur": 1 },
+        { "id": 2, "texte": "Intervention minimale", "valeur": 2 },
+        { "id": 3, "texte": "Neutre", "valeur": 3 },
+        { "id": 4, "texte": "Soutien actif", "valeur": 4 },
+        { "id": 5, "texte": "Intervention forte", "valeur": 5 }
+      ]
+    },
+    {
+      "code": "ECO_02",
+      "categorie": "economie",
+      "theme": "Économie",
+      "texte_generique": "Quel soutien à l'agriculture locale ?",
+      "texte_urbain_dense": "Faut-il développer les marchés de producteurs locaux ?",
+      "texte_periurbain_croissance": "Faut-il protéger les terres agricoles de l'urbanisation ?",
+      "texte_periurbain_stable": "Faut-il soutenir la création de circuits courts ?",
+      "texte_rural_proche": "Faut-il aider les agriculteurs à diversifier leurs activités ?",
+      "options": [
+        { "id": 1, "texte": "Pas d'intervention", "valeur": 1 },
+        { "id": 2, "texte": "Soutien minimal", "valeur": 2 },
+        { "id": 3, "texte": "Neutre", "valeur": 3 },
+        { "id": 4, "texte": "Soutien significatif", "valeur": 4 },
+        { "id": 5, "texte": "Priorité absolue", "valeur": 5 }
+      ]
+    },
+    {
+      "code": "FISCAL_01",
+      "categorie": "fiscalite",
+      "theme": "Fiscalité",
+      "texte_generique": "Faut-il augmenter les impôts locaux pour financer de nouveaux services ?",
+      "texte_urbain_dense": null,
+      "texte_periurbain_croissance": null,
+      "texte_periurbain_stable": null,
+      "texte_rural_proche": null,
+      "options": [
+        { "id": 1, "texte": "Non, les baisser", "valeur": 1 },
+        { "id": 2, "texte": "Non, les maintenir", "valeur": 2 },
+        { "id": 3, "texte": "Neutre", "valeur": 3 },
+        { "id": 4, "texte": "Oui, modérément (+5%)", "valeur": 4 },
+        { "id": 5, "texte": "Oui, significativement (+10%)", "valeur": 5 }
+      ]
+    },
+    {
+      "code": "SECU_01",
+      "categorie": "securite",
+      "theme": "Sécurité",
+      "texte_generique": "Quelle politique de sécurité ?",
+      "texte_urbain_dense": "Faut-il étendre la vidéosurveillance dans les espaces publics ?",
+      "texte_periurbain_croissance": "Faut-il renforcer la police municipale ?",
+      "texte_periurbain_stable": "Faut-il développer la médiation sociale plutôt que la vidéosurveillance ?",
+      "texte_rural_proche": "Faut-il mutualiser une police municipale intercommunale ?",
+      "options": [
+        { "id": 1, "texte": "Moins de sécurité", "valeur": 1 },
+        { "id": 2, "texte": "Maintenir", "valeur": 2 },
+        { "id": 3, "texte": "Neutre", "valeur": 3 },
+        { "id": 4, "texte": "Renforcer un peu", "valeur": 4 },
+        { "id": 5, "texte": "Renforcer fortement", "valeur": 5 }
+      ]
+    },
+    {
+      "code": "DEMO_01",
+      "categorie": "democratie",
+      "theme": "Démocratie",
+      "texte_generique": "Faut-il instaurer un budget participatif ?",
+      "texte_urbain_dense": null,
+      "texte_periurbain_croissance": null,
+      "texte_periurbain_stable": null,
+      "texte_rural_proche": null,
+      "options": [
+        { "id": 1, "texte": "Non", "valeur": 1 },
+        { "id": 2, "texte": "Plutôt non", "valeur": 2 },
+        { "id": 3, "texte": "Indifférent", "valeur": 3 },
+        { "id": 4, "texte": "Plutôt oui (2-3%)", "valeur": 4 },
+        { "id": 5, "texte": "Oui (5% du budget)", "valeur": 5 }
+      ]
+    },
+    {
+      "code": "URBAN_01",
+      "categorie": "urbanisme",
+      "theme": "Urbanisme",
+      "texte_generique": "Quelle vision de l'urbanisme ?",
+      "texte_urbain_dense": "Faut-il transformer les bureaux vides en logements ?",
+      "texte_periurbain_croissance": "Faut-il limiter l'étalement urbain et densifier le centre ?",
+      "texte_periurbain_stable": "Faut-il préserver le caractère villageois du centre-bourg ?",
+      "texte_rural_proche": "Faut-il autoriser les constructions en zone agricole pour les agriculteurs ?",
+      "options": [
+        { "id": 1, "texte": "Laisser faire", "valeur": 1 },
+        { "id": 2, "texte": "Régulation légère", "valeur": 2 },
+        { "id": 3, "texte": "Neutre", "valeur": 3 },
+        { "id": 4, "texte": "Régulation stricte", "valeur": 4 },
+        { "id": 5, "texte": "Contrôle très strict", "valeur": 5 }
+      ]
+    },
+    {
+      "code": "ECOLES_01",
+      "categorie": "ecoles",
+      "theme": "Écoles",
+      "texte_generique": "Quelle politique scolaire ?",
+      "texte_urbain_dense": "Faut-il créer des cantines bio et locales dans toutes les écoles ?",
+      "texte_periurbain_croissance": "Faut-il construire de nouvelles écoles pour absorber la croissance ?",
+      "texte_periurbain_stable": "Faut-il moderniser les écoles existantes ?",
+      "texte_rural_proche": "Faut-il maintenir les petites écoles rurales à tout prix ?",
+      "options": [
+        { "id": 1, "texte": "Réduire les dépenses", "valeur": 1 },
+        { "id": 2, "texte": "Maintenir", "valeur": 2 },
+        { "id": 3, "texte": "Neutre", "valeur": 3 },
+        { "id": 4, "texte": "Investir davantage", "valeur": 4 },
+        { "id": 5, "texte": "Priorité absolue", "valeur": 5 }
+      ]
+    }
+  ]
+}

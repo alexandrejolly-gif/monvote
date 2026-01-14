@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modération - Admin MonVote</title>
+  <link rel="stylesheet" href="../public/styles.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="admin-container">
+    <header class="admin-header">
+      <h1>🔐 Modération - MonVote</h1>
+      <nav class="admin-nav">
+        <a href="index.html">Dashboard</a>
+        <a href="moderation.html" class="active">Modération</a>
+        <a href="data.html">Données</a>
+        <a href="/">Retour au site</a>
+      </nav>
+    </header>
+
+    <!-- Login -->
+    <div id="login-section" class="login-section">
+      <div class="login-card">
+        <h2>Authentification admin</h2>
+        <p>Entrez la clé secrète pour accéder à la modération</p>
+        <form id="login-form">
+          <input type="password" id="admin-key-input" placeholder="Clé admin" required>
+          <button type="submit" class="btn btn-primary">Se connecter</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modération -->
+    <div id="moderation-section" class="moderation-section" style="display:none;">
+      <!-- Stats -->
+      <div class="stats-bar">
+        <div class="stat">
+          <span class="stat-value" id="stat-pending">0</span>
+          <span class="stat-label">En attente</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value" id="stat-today">0</span>
+          <span class="stat-label">Aujourd'hui</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value" id="stat-auto">0</span>
+          <span class="stat-label">Auto-validés</span>
+        </div>
+      </div>
+
+      <!-- Filtres -->
+      <div class="filters">
+        <select id="filter-status" onchange="loadSubmissions()">
+          <option value="pending">En attente</option>
+          <option value="auto_approved">Auto-validés</option>
+          <option value="approved">Approuvés</option>
+          <option value="rejected">Rejetés</option>
+          <option value="all">Tous</option>
+        </select>
+        <select id="filter-commune" onchange="loadSubmissions()">
+          <option value="">Toutes les communes</option>
+        </select>
+        <button class="btn btn-secondary" onclick="loadSubmissions()">🔄 Actualiser</button>
+      </div>
+
+      <!-- Liste des soumissions -->
+      <div class="submissions-list" id="submissions-list">
+        <p style="text-align:center; color:#666;">Chargement...</p>
+      </div>
+    </div>
+
+    <!-- Modal de review -->
+    <div class="modal" id="review-modal" style="display:none;">
+      <div class="modal-backdrop" onclick="closeModal()"></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Review de la soumission</h3>
+          <button class="modal-close" onclick="closeModal()">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="review-layout">
+            <div class="review-image">
+              <img id="review-image-src" src="" alt="Tract">
+            </div>
+            <div class="review-data">
+              <h4>Données extraites</h4>
+              <div class="form-group">
+                <label>Nom</label>
+                <input type="text" id="review-nom">
+              </div>
+              <div class="form-group">
+                <label>Prénom</label>
+                <input type="text" id="review-prenom">
+              </div>
+              <div class="form-group">
+                <label>Parti</label>
+                <input type="text" id="review-parti">
+              </div>
+              <div class="form-group">
+                <label>Liste</label>
+                <input type="text" id="review-liste">
+              </div>
+              <div class="form-group">
+                <label>Propositions (une par ligne)</label>
+                <textarea id="review-propositions" rows="6"></textarea>
+              </div>
+              <div class="form-group">
+                <label>Notes admin</label>
+                <textarea id="review-notes" rows="2"></textarea>
+              </div>
+              <div class="confidence-info">
+                <strong>Score de confiance :</strong> <span id="review-confidence">-</span>%
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-danger" onclick="rejectSubmission()">❌ Rejeter</button>
+          <button class="btn btn-success" onclick="approveSubmission()">✅ Approuver</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading -->
+    <div id="loading" class="loading" style="display:none;">
+      <div class="spinner"></div>
+      <p>Chargement...</p>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

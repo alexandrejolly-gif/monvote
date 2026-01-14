@@ -1,0 +1,30 @@
+{
+  "name": "monvote",
+  "version": "1.0.0",
+  "description": "Application de quiz électoral pour les municipales 2026 - Rennes Métropole",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "echo 'No build step needed'",
+    "deploy": "vercel --prod"
+  },
+  "keywords": [
+    "elections",
+    "municipales",
+    "quiz",
+    "rennes"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@anthropic-ai/sdk": "latest",
+    "@supabase/supabase-js": "^2.45.0",
+    "sharp": "^0.33.5"
+  },
+  "devDependencies": {
+    "vercel": "^33.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

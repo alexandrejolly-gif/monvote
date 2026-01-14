@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - MonVote</title>
+  <link rel="stylesheet" href="../public/styles.css">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+  <div class="admin-container">
+    <header class="admin-header">
+      <h1><span data-icon="key"></span> Admin - MonVote</h1>
+      <nav class="admin-nav">
+        <a href="index.html" class="active">Dashboard</a>
+        <a href="moderation.html">Modération</a>
+        <a href="data.html">Données</a>
+        <a href="/">Retour au site</a>
+      </nav>
+    </header>
+
+    <!-- Login -->
+    <div id="login-section" class="login-section">
+      <div class="login-card">
+        <h2>Authentification admin</h2>
+        <p>Entrez la clé secrète pour accéder au dashboard</p>
+        <form id="login-form">
+          <input type="password" id="admin-key-input" placeholder="Clé admin" required>
+          <button type="submit" class="btn btn-primary">Se connecter</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard-section" class="dashboard-section" style="display:none;">
+      <!-- Stats globales -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value" id="stat-candidats">-</div>
+          <div class="stat-label">Candidats</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-questions">-</div>
+          <div class="stat-label">Communes avec quiz</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-sessions">-</div>
+          <div class="stat-label">Sessions totales</div>
+        </div>
+        <div class="stat-card warning">
+          <div class="stat-value" id="stat-pending">-</div>
+          <div class="stat-label">En attente</div>
+        </div>
+      </div>
+
+      <!-- Actions rapides -->
+      <div class="quick-actions">
+        <h3><span data-icon="lightning"></span> Actions rapides</h3>
+        <div class="actions-grid">
+          <a href="moderation.html" class="action-card">
+            <div class="action-icon" data-icon="clipboard" data-icon-size="32"></div>
+            <div class="action-title">Modération</div>
+            <div class="action-desc">Valider les tracts</div>
+          </a>
+          <a href="data.html" class="action-card">
+            <div class="action-icon" data-icon="chart" data-icon-size="32"></div>
+            <div class="action-title">Données</div>
+            <div class="action-desc">Voir détails</div>
+          </a>
+          <div class="action-card" onclick="openSearchCandidats()">
+            <div class="action-icon" data-icon="search" data-icon-size="32"></div>
+            <div class="action-title">Rechercher</div>
+            <div class="action-desc">Candidats multiples</div>
+          </div>
+          <div class="action-card" onclick="openAddCandidat()">
+            <div class="action-icon" data-icon="plus" data-icon-size="32"></div>
+            <div class="action-title">Candidat</div>
+            <div class="action-desc">Ajout manuel</div>
+          </div>
+          <div class="action-card" onclick="openAddCommunes()">
+            <div class="action-icon" data-icon="houses" data-icon-size="32"></div>
+            <div class="action-title">Communes</div>
+            <div class="action-desc">Ajouter nouvelles</div>
+          </div>
+          <div class="action-card" onclick="openUpdateCommunes()">
+            <div class="action-icon" data-icon="refresh" data-icon-size="32"></div>
+            <div class="action-title">Actualiser</div>
+            <div class="action-desc">Maj communes</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats détaillées -->
+      <div class="details-section">
+        <h3>Statistiques détaillées</h3>
+
+        <div class="stats-row">
+          <div class="stats-box">
+            <h4>Soumissions (24h)</h4>
+            <ul id="submissions-stats"></ul>
+          </div>
+
+          <div class="stats-box">
+            <h4>Sources des candidats</h4>
+            <ul id="sources-stats"></ul>
+          </div>
+
+          <div class="stats-box">
+            <h4>Top communes (7j)</h4>
+            <ul id="top-communes"></ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Modale Recherche Massive de Candidats -->
+    <div id="modal-search-candidats" class="modal" style="display:none;">
+      <div class="modal-content modal-large">
+        <span class="close" onclick="closeSearchCandidats()">&times;</span>
+        <h2><span data-icon="search"></span> Recherche massive de candidats</h2>
+        <p>Recherchez automatiquement les candidats pour plusieurs communes en une seule fois.</p>
+
+        <div class="cost-estimate" style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 12px; margin: 15px 0; border-radius: 4px;">
+          <strong><span data-icon="money"></span> Coût estimé :</strong>
+          <span id="search-cost-estimate" style="font-size: 1.1em; color: #856404;">Sélectionnez des communes pour voir le coût</span>
+          <small style="display: block; margin-top: 5px; color: #856404;">
+            ~$0.10 par commune (recherche web + extraction)
+          </small>
+        </div>
+
+        <!-- Options de recherche -->
+        <div class="search-options">
+          <button class="btn btn-primary" onclick="searchAllCommunes()">
+            🔍 Rechercher TOUTES les communes
+          </button>
+          <button class="btn btn-secondary" onclick="toggleCommuneSelector()">
+            ✓ Sélectionner des communes spécifiques
+          </button>
+        </div>
+
+        <!-- Sélecteur de communes (caché par défaut) -->
+        <div id="commune-selector" style="display:none; margin-top: 20px;">
+          <h3>Sélection de communes</h3>
+          <input type="text" id="search-commune-input" placeholder="Rechercher une commune..."
+                 class="search-input" style="width: 100%; margin-bottom: 10px;">
+          <div class="selector-header">
+            <button class="btn btn-sm" onclick="selectAllCommunes()">Tout sélectionner</button>
+            <button class="btn btn-sm" onclick="deselectAllCommunes()">Tout désélectionner</button>
+          </div>
+          <div id="commune-list" class="commune-list" style="max-height: 400px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; border-radius: 4px;">
+            <p>Chargement des communes...</p>
+          </div>
+          <div style="margin-top: 15px;">
+            <button class="btn btn-primary" onclick="searchSelectedCommunes()">
+              Lancer la recherche pour les communes sélectionnées
+            </button>
+          </div>
+        </div>
+
+        <!-- Progression -->
+        <div id="search-progress" class="progress-container" style="display:none; margin-top: 20px;">
+          <div class="progress-bar">
+            <div id="search-progress-bar-fill" class="progress-bar-fill"></div>
+          </div>
+          <div id="search-progress-text" class="progress-text"></div>
+          <div id="search-progress-log" class="progress-log" style="max-height: 300px; overflow-y: auto; background: #f5f5f5; padding: 10px; border-radius: 4px; margin-top: 10px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modale Ajouter Communes (fusion de Recherche Massive + Ajouter Commune) -->
+    <div id="modal-add-communes" class="modal" style="display:none;">
+      <div class="modal-content modal-large">
+        <span class="close" onclick="closeAddCommunes()">&times;</span>
+        <h2><span data-icon="houses"></span> Ajouter communes</h2>
+        <p>Ajoutez une ou plusieurs communes avec génération automatique.</p>
+
+        <div class="cost-estimate" style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 12px; margin: 15px 0; border-radius: 4px;">
+          <strong><span data-icon="money"></span> Coût estimé :</strong>
+          <span id="add-cost-estimate" style="font-size: 1.1em; color: #856404;">Sélectionnez des communes pour voir le coût</span>
+          <small style="display: block; margin-top: 5px; color: #856404;">
+            ~$0.15-0.25 par commune (selon options cochées)
+          </small>
+        </div>
+
+        <!-- Options de génération -->
+        <div class="generation-options">
+          <h3>Options de génération</h3>
+          <div class="checkbox-group">
+            <label class="checkbox-option">
+              <input type="checkbox" id="opt-search-candidats" checked>
+              <div class="checkbox-content">
+                <strong><span data-icon="search"></span> Rechercher les candidats</strong>
+                <p>Recherche automatique des candidats via web search</p>
+              </div>
+            </label>
+            <label class="checkbox-option">
+              <input type="checkbox" id="opt-search-programmes" checked>
+              <div class="checkbox-content">
+                <strong><span data-icon="file"></span> Rechercher les programmes</strong>
+                <p>Récupérer les propositions des candidats trouvés</p>
+              </div>
+            </label>
+            <label class="checkbox-option">
+              <input type="checkbox" id="opt-generate-questions" checked>
+              <div class="checkbox-content">
+                <strong><span data-icon="edit"></span> Générer les questions</strong>
+                <p>Créer le quiz adapté à la commune</p>
+              </div>
+            </label>
+            <label class="checkbox-option">
+              <input type="checkbox" id="opt-calculate-positions" checked>
+              <div class="checkbox-content">
+                <strong><span data-icon="chart"></span> Calculer les positions</strong>
+                <p>Positionner les candidats sur les questions</p>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Sélection des communes -->
+        <div class="commune-selection">
+          <h3>Communes à ajouter</h3>
+          <div class="selector-header">
+            <input type="text" id="add-commune-search" placeholder="Rechercher une commune..." class="search-input">
+            <button class="btn btn-sm" onclick="selectAllAddCommunes()">Tout sélectionner</button>
+            <button class="btn btn-sm" onclick="deselectAllAddCommunes()">Tout désélectionner</button>
+          </div>
+          <div id="add-commune-list" class="commune-list">
+            <p>Chargement des communes...</p>
+          </div>
+        </div>
+
+        <!-- Boutons d'action -->
+        <div class="form-actions">
+          <button type="button" onclick="closeAddCommunes()" class="btn btn-secondary">Annuler</button>
+          <button type="button" onclick="startAddCommunes()" class="btn btn-primary" id="btn-start-add">
+            Ajouter les communes sélectionnées
+          </button>
+        </div>
+
+        <!-- Progression -->
+        <div id="add-progress" class="progress-container" style="display:none;">
+          <div class="progress-bar">
+            <div id="add-progress-bar-fill" class="progress-bar-fill"></div>
+          </div>
+          <div id="add-progress-text" class="progress-text"></div>
+          <div id="add-progress-log" class="progress-log"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modale Mettre à jour les communes -->
+    <div id="modal-update-communes" class="modal" style="display:none;">
+      <div class="modal-content modal-large">
+        <span class="close" onclick="closeUpdateCommunes()">&times;</span>
+        <h2><span data-icon="refresh"></span> Mettre à jour les communes</h2>
+        <p>Choisissez les communes à mettre à jour et le mode de mise à jour.</p>
+
+        <div class="cost-estimate" style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 12px; margin: 15px 0; border-radius: 4px;">
+          <strong><span data-icon="money"></span> Coût estimé :</strong>
+          <span id="update-cost-estimate" style="font-size: 1.1em; color: #856404;">Sélectionnez des communes pour voir le coût</span>
+          <small style="display: block; margin-top: 5px; color: #856404;">
+            Mise à jour intelligente : ~$0.05-0.10 par commune | Tout regénérer : ~$0.15-0.25 par commune
+          </small>
+        </div>
+
+        <!-- Options de mise à jour -->
+        <div class="update-options">
+          <h3>Options de mise à jour</h3>
+          <div class="checkbox-group">
+            <label class="checkbox-option">
+              <input type="checkbox" id="opt-update-search-candidats" checked>
+              <div class="checkbox-content">
+                <strong><span data-icon="search"></span> Rechercher nouveaux candidats</strong>
+                <p>Chercher de nouveaux candidats non encore référencés</p>
+              </div>
+            </label>
+            <label class="checkbox-option">
+              <input type="checkbox" id="opt-update-programmes" checked>
+              <div class="checkbox-content">
+                <strong><span data-icon="file"></span> Mettre à jour programmes</strong>
+                <p>Enrichir avec les tracts validés depuis dernière mise à jour</p>
+              </div>
+            </label>
+            <label class="checkbox-option">
+              <input type="checkbox" id="opt-update-regenerate-questions" checked>
+              <div class="checkbox-content">
+                <strong><span data-icon="edit"></span> Régénérer questions</strong>
+                <p>Recréer les questions du quiz</p>
+              </div>
+            </label>
+            <label class="checkbox-option">
+              <input type="checkbox" id="opt-update-recalculate-positions" checked>
+              <div class="checkbox-content">
+                <strong><span data-icon="chart"></span> Recalculer positions</strong>
+                <p>Repositionner les candidats sur les questions</p>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Sélection des communes -->
+        <div class="commune-selection">
+          <h3>Communes à mettre à jour</h3>
+          <div class="selector-header">
+            <input type="text" id="update-commune-search" placeholder="Rechercher une commune..." class="search-input">
+            <button class="btn btn-sm" onclick="selectAllUpdateCommunes()">Tout sélectionner</button>
+            <button class="btn btn-sm" onclick="deselectAllUpdateCommunes()">Tout désélectionner</button>
+          </div>
+          <div id="update-commune-list" class="commune-list">
+            <p>Chargement des communes...</p>
+          </div>
+        </div>
+
+        <!-- Boutons d'action -->
+        <div class="form-actions">
+          <button type="button" onclick="closeUpdateCommunes()" class="btn btn-secondary">Annuler</button>
+          <button type="button" onclick="startUpdate()" class="btn btn-primary" id="btn-start-update">
+            Lancer la mise à jour
+          </button>
+        </div>
+
+        <!-- Progression -->
+        <div id="update-progress" class="progress-container" style="display:none;">
+          <div class="progress-bar">
+            <div id="update-progress-bar-fill" class="progress-bar-fill"></div>
+          </div>
+          <div id="update-progress-text" class="progress-text"></div>
+          <div id="update-progress-log" class="progress-log"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading -->
+    <div id="loading" class="loading" style="display:none;">
+      <div class="spinner"></div>
+      <p>Chargement...</p>
+    </div>
+  </div>
+
+  <script src="../public/icon-config.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

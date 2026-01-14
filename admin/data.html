@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Données détaillées - Admin</title>
+  <link rel="stylesheet" href="../public/styles.css">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+  <div class="admin-container">
+    <header class="admin-header">
+      <h1><span data-icon="chart"></span> Données détaillées</h1>
+      <nav class="admin-nav">
+        <a href="index.html">Dashboard</a>
+        <a href="moderation.html">Modération</a>
+        <a href="data.html" class="active">Données</a>
+        <a href="/">Retour au site</a>
+      </nav>
+    </header>
+
+    <!-- Login -->
+    <div id="login-section" class="login-section">
+      <div class="login-card">
+        <h2>Authentification admin</h2>
+        <input type="password" id="admin-key-input" placeholder="Clé admin">
+        <button onclick="loginData()" class="btn btn-primary">Se connecter</button>
+      </div>
+    </div>
+
+    <!-- Data Section -->
+    <div id="data-section" class="data-section" style="display:none;">
+
+      <!-- Filtres -->
+      <div class="filters-section">
+        <h3>Filtres</h3>
+        <select id="filter-commune-data" onchange="loadData()">
+          <option value="">Toutes les communes</option>
+        </select>
+      </div>
+
+      <!-- Tableau 0 : Liste complète des candidats -->
+      <div class="data-table-section">
+        <div class="section-header" onclick="toggleSection('candidats-list')">
+          <h3><span data-icon="users"></span> Liste complète des candidats</h3>
+          <span class="toggle-icon" id="toggle-candidats-list">▼</span>
+        </div>
+        <div class="table-container" id="section-candidats-list">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Commune</th>
+                <th>Nom</th>
+                <th>Parti</th>
+                <th>Liste</th>
+                <th>Source</th>
+                <th>Date d'ajout</th>
+              </tr>
+            </thead>
+            <tbody id="candidats-list-tbody">
+              <tr><td colspan="6" style="text-align:center;">Chargement...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tableau 1 : Propositions des candidats -->
+      <div class="data-table-section">
+        <div class="section-header" onclick="toggleSection('propositions')">
+          <h3><span data-icon="clipboard"></span> Propositions des candidats</h3>
+          <span class="toggle-icon" id="toggle-propositions">▼</span>
+        </div>
+        <div class="table-container" id="section-propositions">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Commune</th>
+                <th>Candidat</th>
+                <th>Parti</th>
+                <th>Liste</th>
+                <th>Propositions</th>
+                <th>Nb Props</th>
+                <th>Source</th>
+              </tr>
+            </thead>
+            <tbody id="propositions-tbody">
+              <tr><td colspan="7" style="text-align:center;">Chargement...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tableau 2 : Positions des candidats -->
+      <div class="data-table-section">
+        <div class="section-header" onclick="toggleSection('positions')">
+          <h3><span data-icon="chart"></span> Positions des candidats sur les questions</h3>
+          <span class="toggle-icon" id="toggle-positions">▼</span>
+        </div>
+        <div class="table-container" id="section-positions">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Commune</th>
+                <th>Candidat</th>
+                <th>Nb Questions</th>
+                <th>Positions</th>
+              </tr>
+            </thead>
+            <tbody id="positions-tbody">
+              <tr><td colspan="4" style="text-align:center;">Chargement...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tableau 3 : Informations communes -->
+      <div class="data-table-section">
+        <div class="section-header" onclick="toggleSection('communes')">
+          <h3><span data-icon="houses"></span> Informations communes</h3>
+          <span class="toggle-icon" id="toggle-communes">▼</span>
+        </div>
+        <div class="table-container" id="section-communes">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Commune</th>
+                <th>Population</th>
+                <th>Profil</th>
+                <th>Enjeux prioritaires</th>
+                <th>Nb Candidats</th>
+                <th>Questions générées</th>
+                <th>Maire sortant</th>
+              </tr>
+            </thead>
+            <tbody id="communes-tbody">
+              <tr><td colspan="7" style="text-align:center;">Chargement...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tableau 4 : Questions des quiz -->
+      <div class="data-table-section">
+        <div class="section-header" onclick="toggleSection('questions')">
+          <h3><span data-icon="question"></span> Questions et propositions des quiz</h3>
+          <span class="toggle-icon" id="toggle-questions">▼</span>
+        </div>
+        <div class="table-container" id="section-questions">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Commune</th>
+                <th>Code Question</th>
+                <th>Thème</th>
+                <th>Question</th>
+                <th>Options de réponse</th>
+              </tr>
+            </thead>
+            <tbody id="questions-tbody">
+              <tr><td colspan="5" style="text-align:center;">Chargement...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Loading -->
+    <div id="loading" class="loading" style="display:none;">
+      <div class="spinner"></div>
+      <p>Chargement...</p>
+    </div>
+  </div>
+
+  <script src="../public/icon-config.js"></script>
+  <script src="data.js"></script>
+</body>
+</html>
