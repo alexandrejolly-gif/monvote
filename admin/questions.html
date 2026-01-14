@@ -371,7 +371,7 @@
       showLoading('Chargement des communes...');
 
       try {
-        const response = await fetch(`${API_BASE}/api/admin/generate-questions`);
+        const response = await fetch(`${API_BASE}/api/admin?action=generate-questions`);
         const data = await response.json();
 
         if (!data.success) {
@@ -454,7 +454,7 @@
       showLoading(`Génération en cours pour ${code}...`);
 
       try {
-        const response = await fetch(`${API_BASE}/api/admin/generate-questions`, {
+        const response = await fetch(`${API_BASE}/api/admin?action=generate-questions`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ commune_code: code, force: false })
@@ -488,7 +488,7 @@
       showLoading(`Régénération en cours pour ${code}...`);
 
       try {
-        const response = await fetch(`${API_BASE}/api/admin/generate-questions`, {
+        const response = await fetch(`${API_BASE}/api/admin?action=generate-questions`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ commune_code: code, force: true })

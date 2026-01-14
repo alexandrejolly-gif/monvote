@@ -56,7 +56,7 @@ async function checkAuth() {
   if (!state.adminKey) return;
 
   try {
-    const response = await fetch(`${API_BASE}/api/admin/stats?key=${state.adminKey}`);
+    const response = await fetch(`${API_BASE}/api/admin?action=stats&key=${state.adminKey}`);
 
     if (response.ok) {
       // Authentifié
@@ -106,7 +106,7 @@ function initializeIcons() {
 
 async function loadStats() {
   try {
-    const response = await fetch(`${API_BASE}/api/admin/stats?key=${state.adminKey}`);
+    const response = await fetch(`${API_BASE}/api/admin?action=stats&key=${state.adminKey}`);
     const data = await response.json();
 
     if (data.success) {
@@ -217,7 +217,7 @@ async function loadSubmissions() {
   showLoading();
 
   try {
-    let url = `${API_BASE}/api/admin/submissions?key=${state.adminKey}&status=${status}`;
+    let url = `${API_BASE}/api/admin?action=submissions&key=${state.adminKey}&status=${status}`;
     if (commune) {
       url += `&commune_code=${commune}`;
     }
@@ -356,7 +356,7 @@ async function approveSubmission() {
   showLoading();
 
   try {
-    const response = await fetch(`${API_BASE}/api/admin/validate?key=${state.adminKey}`, {
+    const response = await fetch(`${API_BASE}/api/admin?action=validate&key=${state.adminKey}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -385,7 +385,7 @@ async function approveSubmission() {
           // Lancer la mise à jour intelligente pour cette commune
           hideLoading();
 
-          const updateResponse = await fetch(`${API_BASE}/api/admin/update-commune`, {
+          const updateResponse = await fetch(`${API_BASE}/api/admin?action=update-commune`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -434,7 +434,7 @@ async function rejectSubmission() {
   showLoading();
 
   try {
-    const response = await fetch(`${API_BASE}/api/admin/validate?key=${state.adminKey}`, {
+    const response = await fetch(`${API_BASE}/api/admin?action=validate&key=${state.adminKey}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -680,7 +680,7 @@ async function executeSearch(communeCodes) {
     const communeText = communeCodes.length === 1 ? 'commune' : 'communes';
     updateProgress(10, 'Démarrage...', `🔍 Recherche de candidats pour ${communeCodes.length} ${communeText}...`);
 
-    const response = await fetch('/api/admin/search-candidats', {
+    const response = await fetch('/api/admin?action=search-candidats', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -914,7 +914,7 @@ async function startAddCommunes() {
       progressLog.scrollTop = progressLog.scrollHeight;
 
       try {
-        const response = await fetch(`${API_BASE}/api/admin/add-commune`, {
+        const response = await fetch(`${API_BASE}/api/admin?action=add-commune`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -1114,7 +1114,7 @@ document.getElementById('add-commune-form')?.addEventListener('submit', async (e
   try {
     updateProgress(10, 'Démarrage...', '🏘️ Ajout de la commune...');
 
-    const response = await fetch('/api/admin/add-commune', {
+    const response = await fetch('/api/admin?action=add-commune', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -1333,7 +1333,7 @@ async function startUpdate() {
       progressLog.scrollTop = progressLog.scrollHeight;
 
       try {
-        const response = await fetch(`${API_BASE}/api/admin/update-commune`, {
+        const response = await fetch(`${API_BASE}/api/admin?action=update-commune`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

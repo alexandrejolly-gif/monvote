@@ -105,7 +105,7 @@ async function loadCommunes() {
 async function loadCandidatsList(communeFilter) {
   try {
     // Récupérer tous les candidats
-    const response = await fetch(`${API_BASE}/api/admin/candidats?key=${ADMIN_KEY}`);
+    const response = await fetch(`${API_BASE}/api/admin?action=candidats&key=${ADMIN_KEY}`);
     const data = await response.json();
 
     if (!data.success) {
@@ -149,7 +149,7 @@ async function loadCandidatsList(communeFilter) {
 async function loadPropositions(communeFilter) {
   try {
     // Récupérer les candidats depuis Supabase via API admin
-    const response = await fetch(`${API_BASE}/api/admin/candidats?key=${ADMIN_KEY}`);
+    const response = await fetch(`${API_BASE}/api/admin?action=candidats&key=${ADMIN_KEY}`);
     const data = await response.json();
 
     if (!data.success) {
@@ -215,7 +215,7 @@ async function loadPropositions(communeFilter) {
 
 async function loadPositions(communeFilter) {
   try {
-    const response = await fetch(`${API_BASE}/api/admin/candidats?key=${ADMIN_KEY}`);
+    const response = await fetch(`${API_BASE}/api/admin?action=candidats&key=${ADMIN_KEY}`);
     const data = await response.json();
 
     if (!data.success) {
