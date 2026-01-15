@@ -700,6 +700,34 @@ async function showCommuneInfo() {
 
   // Afficher l'écran d'info
   showStep('step-commune-info');
+
+  // Charger l'image de fond de la commune
+  updateCommuneBackground(commune.nom);
+}
+
+function updateCommuneBackground(communeName) {
+  const bgElement = document.getElementById('commune-background');
+  const creditElement = document.getElementById('photo-credit');
+
+  if (!bgElement) return;
+
+  const imageData = getCommuneImage(communeName);
+
+  // Précharger l'image
+  const img = new Image();
+  img.onload = () => {
+    bgElement.style.backgroundImage = `url(${imageData.url})`;
+    if (creditElement) {
+      creditElement.textContent = `📷 ${imageData.description}`;
+    }
+  };
+  img.onerror = () => {
+    bgElement.style.backgroundImage = `url(${DEFAULT_IMAGE.url})`;
+    if (creditElement) {
+      creditElement.textContent = `📷 ${DEFAULT_IMAGE.description}`;
+    }
+  };
+  img.src = imageData.url;
 }
 
 async function startQuiz() {

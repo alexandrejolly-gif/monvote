@@ -228,6 +228,55 @@ header h1 {
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* Écran info commune avec image de fond */
+.commune-info-screen {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  margin: -10px -20px;
+  padding: 10px 20px;
+}
+
+/* Image de fond plein écran */
+.commune-background {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+  transition: opacity 0.5s ease;
+}
+
+/* Overlay sombre pour lisibilité */
+.commune-background::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(15, 23, 42, 0.7) 0%,
+    rgba(15, 23, 42, 0.85) 100%
+  );
+}
+
+/* Contenu par-dessus l'image */
+.commune-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Crédit photo discret */
+.photo-credit {
+  position: absolute;
+  bottom: 8px;
+  right: 12px;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.6);
+  z-index: 1;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
 /* Écran info commune */
 .commune-info-card {
   background: var(--bg-card);

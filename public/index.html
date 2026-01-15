@@ -75,7 +75,12 @@
     </section>
 
     <!-- Étape 2 : Info commune sélectionnée -->
-    <section id="step-commune-info" class="step">
+    <section id="step-commune-info" class="step commune-info-screen">
+      <!-- Image de fond -->
+      <div class="commune-background" id="commune-background"></div>
+
+      <!-- Contenu -->
+      <div class="commune-content">
       <div class="commune-info-card">
         <!-- Photo de la commune -->
         <div id="commune-photo-container" class="commune-photo-container">
@@ -158,6 +163,10 @@
           <button id="btn-start-quiz-confirm" class="btn btn-primary btn-start-quiz-main"><span data-icon="target"></span> Commencer le quiz</button>
         </div>
       </div>
+      </div>
+
+      <!-- Crédit photo -->
+      <div class="photo-credit" id="photo-credit"></div>
     </section>
 
     <!-- Étape 3 : Quiz -->
@@ -242,6 +251,7 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="icon-config.js"></script>
+  <script src="commune-images.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
