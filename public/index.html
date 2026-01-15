@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MonVote - Quiz Electoral Municipales 2026</title>
-  <meta name="description" content="Découvrez quel candidat vous correspond le mieux pour les municipales 2026">
+  <title>PourQuiVoter - Quiz Electoral Municipales 2026</title>
+  <meta name="description" content="Ne votez plus au hasard pour les municipales 2026">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <!-- Lucide Icons -->
@@ -15,13 +15,22 @@
     <header>
       <div class="header-content">
         <div>
-          <h1 id="app-title"><span data-icon="vote"></span> MonVote</h1>
-          <p class="tagline">Trouvez le candidat qui vous correspond</p>
+          <h1 id="app-title">
+            <svg class="app-logo" width="48" height="48" viewBox="0 0 36 36" fill="none"
+                 stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <!-- Urne -->
+              <path d="M6 14V30H30V14"/>
+              <path d="M6 14L10 14L10 10"/>
+              <path d="M30 14L26 14L26 10"/>
+              <!-- Bulletin incliné avec coche -->
+              <rect x="12" y="4" width="14" height="14" rx="1" transform="rotate(15 19 11)"/>
+              <path d="M16 11L18.5 13.5L24 8" transform="rotate(15 19 11)"/>
+            </svg>
+            PourQuiVoter
+          </h1>
+          <p class="tagline">Ne votez plus au hasard</p>
         </div>
-        <button id="theme-toggle" class="theme-toggle" aria-label="Basculer le mode sombre">
-          <span class="theme-icon sun" data-icon="sun"></span>
-          <span class="theme-icon moon" data-icon="moon"></span>
-        </button>
       </div>
     </header>
 
@@ -42,7 +51,7 @@
 
       <div class="actions">
         <button id="btn-start-quiz" class="btn btn-primary btn-start-quiz-main" disabled>
-          Commencer le quiz →
+          <span data-icon="target"></span> Commencer le quiz
         </button>
       </div>
 
@@ -195,39 +204,9 @@
   </div>
 
   <footer>
-    <p>MonVote - Municipales 2026 - Rennes Métropole</p>
+    <p>PourQuiVoter - Municipales 2026 - Rennes Métropole</p>
     <p><a href="/admin/index.html">Admin</a> | <a href="https://github.com">Code source</a></p>
   </footer>
-
-  <!-- Theme Switcher -->
-  <div class="theme-switcher">
-    <button class="theme-switcher-toggle" onclick="toggleThemeMenu()" title="Changer le style">
-      🎨
-    </button>
-    <div class="theme-menu" id="theme-menu">
-      <div class="theme-menu-header">Style visuel</div>
-      <button class="theme-option" data-theme="default" onclick="setTheme('default')">
-        <span class="theme-preview default"></span>
-        Violet (défaut)
-      </button>
-      <button class="theme-option" data-theme="civique" onclick="setTheme('civique')">
-        <span class="theme-preview civique"></span>
-        Civique
-      </button>
-      <button class="theme-option" data-theme="nature" onclick="setTheme('nature')">
-        <span class="theme-preview nature"></span>
-        Bretagne
-      </button>
-      <button class="theme-option" data-theme="sunset" onclick="setTheme('sunset')">
-        <span class="theme-preview sunset"></span>
-        Sunset
-      </button>
-      <button class="theme-option" data-theme="minimal" onclick="setTheme('minimal')">
-        <span class="theme-preview minimal"></span>
-        Minimal
-      </button>
-    </div>
-  </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="icon-config.js"></script>

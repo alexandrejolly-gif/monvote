@@ -1,35 +1,18 @@
-/* MonVote - Styles CSS */
+/* PourQuiVoter - Styles CSS - Mode sombre permanent */
 
 :root {
-  --primary: #2563eb;
-  --primary-dark: #1d4ed8;
+  --primary: #60a5fa;
+  --primary-dark: #3b82f6;
   --secondary: #64748b;
-  --success: #10b981;
-  --danger: #ef4444;
-  --warning: #f59e0b;
+  --success: #34d399;
+  --danger: #f87171;
+  --warning: #fbbf24;
   --light: #f8fafc;
   --dark: #1e293b;
   --border: #e2e8f0;
   --radius: 8px;
 
-  /* Variables de thème clair */
-  --bg-gradient-start: #667eea;
-  --bg-gradient-end: #764ba2;
-  --bg-card: #ffffff;
-  --text: #1e293b;
-  --text-secondary: #64748b;
-  --border-color: #e2e8f0;
-  --shadow: rgba(0, 0, 0, 0.1);
-}
-
-/* Mode sombre */
-body.dark-mode {
-  --primary: #60a5fa;
-  --primary-dark: #3b82f6;
-  --success: #34d399;
-  --danger: #f87171;
-  --warning: #fbbf24;
-
+  /* Mode sombre permanent */
   --bg-gradient-start: #1e1b4b;
   --bg-gradient-end: #312e81;
   --bg-card: #1e293b;
@@ -85,6 +68,17 @@ header h1 {
   font-size: 2.5rem;
   color: var(--primary);
   margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.app-logo {
+  width: 48px;
+  height: 48px;
+  color: var(--primary);
+  flex-shrink: 0;
 }
 
 #app-title {
@@ -107,52 +101,6 @@ header h1 {
   color: var(--text-secondary);
 }
 
-/* Toggle mode sombre */
-.theme-toggle {
-  position: relative;
-  width: 60px;
-  height: 30px;
-  background: var(--border-color);
-  border: none;
-  border-radius: 15px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  flex-shrink: 0;
-}
-
-.theme-toggle:hover {
-  transform: scale(1.05);
-}
-
-.theme-icon {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 1.2rem;
-  transition: all 0.3s ease;
-}
-
-.theme-icon.sun {
-  left: 5px;
-  opacity: 1;
-}
-
-.theme-icon.moon {
-  right: 5px;
-  opacity: 0;
-}
-
-body.dark-mode .theme-toggle {
-  background: var(--primary);
-}
-
-body.dark-mode .theme-icon.sun {
-  opacity: 0;
-}
-
-body.dark-mode .theme-icon.moon {
-  opacity: 1;
-}
 
 /* Steps */
 .step {
@@ -2273,11 +2221,6 @@ footer a {
     gap: 12px;
   }
 
-  .theme-toggle {
-    width: 44px;
-    height: 44px;
-  }
-
   /* Map */
   #map-container {
     height: 300px !important;
@@ -2477,130 +2420,3 @@ footer a {
   color: var(--text-secondary);
 }
 
-/* ======================
-   THEME SWITCHER
-   ====================== */
-
-.theme-switcher {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 1000;
-}
-
-.theme-switcher-toggle {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  box-shadow: 0 2px 10px var(--shadow);
-  cursor: pointer;
-  font-size: 1.2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-}
-
-.theme-switcher-toggle:hover {
-  transform: scale(1.1);
-  box-shadow: 0 4px 15px var(--shadow);
-}
-
-.theme-menu {
-  position: absolute;
-  bottom: 54px;
-  right: 0;
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  box-shadow: 0 4px 20px var(--shadow);
-  padding: 8px;
-  min-width: 180px;
-  display: none;
-}
-
-.theme-menu.open {
-  display: block;
-  animation: fadeInUp 0.2s ease;
-}
-
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.theme-menu-header {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--text-secondary);
-  padding: 8px 12px 4px;
-}
-
-.theme-option {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-  padding: 10px 12px;
-  border: none;
-  background: transparent;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  color: var(--text);
-  text-align: left;
-  transition: background 0.2s ease;
-}
-
-.theme-option:hover {
-  background: var(--light);
-}
-
-.theme-option.active {
-  background: var(--light);
-  font-weight: 600;
-}
-
-.theme-preview {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.theme-preview.default {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-}
-
-.theme-preview.civique {
-  background: linear-gradient(135deg, #1e3a5f, #3b5998);
-}
-
-.theme-preview.nature {
-  background: linear-gradient(135deg, #2d6a4f, #40916c);
-}
-
-.theme-preview.sunset {
-  background: linear-gradient(135deg, #f97316, #dc2626);
-}
-
-.theme-preview.minimal {
-  background: linear-gradient(135deg, #262626, #525252);
-}
-
-/* Responsive mobile */
-@media (max-width: 480px) {
-  .theme-switcher {
-    bottom: 10px;
-    right: 10px;
-  }
-
-  .theme-switcher-toggle {
-    width: 36px;
-    height: 36px;
-    font-size: 1rem;
-  }
-}
