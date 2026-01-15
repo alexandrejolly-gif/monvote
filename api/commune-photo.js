@@ -252,12 +252,12 @@ async function searchWikimediaCommons(communeName) {
                       continue;
                     }
 
-                    // Ne garder QUE les images de bâtiments/monuments pertinents
+                    // Marquer les images de bâtiments/monuments comme prioritaires
                     const buildingKeywords = [
                       'mairie', 'église', 'church', 'château', 'castle',
                       'monument', 'place', 'centre', 'hôtel de ville',
                       'town hall', 'city hall', 'beffroi', 'basilique',
-                      'cathédrale', 'abbaye', 'chapelle', 'église',
+                      'cathédrale', 'abbaye', 'chapelle',
                       'panorama', 'vue', 'view', 'aerial'
                     ];
 
@@ -265,11 +265,6 @@ async function searchWikimediaCommons(communeName) {
                       image.title.toLowerCase().includes(keyword) ||
                       cleanDescription.includes(keyword)
                     );
-
-                    if (!hasRelevantKeyword) {
-                      console.log(`    ⛔ Rejetée (pas de bâtiment pertinent): ${image.title}`);
-                      continue;
-                    }
 
                     // Filtrer les photos trop anciennes (avant 2010)
                     let photoDate = null;
@@ -295,7 +290,8 @@ async function searchWikimediaCommons(communeName) {
                       description: description,
                       artist: artist,
                       cleanDescription: cleanDescription,
-                      year: photoDate?.getFullYear() || null
+                      year: photoDate?.getFullYear() || null,
+                      isBuilding: hasRelevantKeyword
                     });
                   }
                 }
@@ -310,46 +306,62 @@ async function searchWikimediaCommons(communeName) {
             console.log(`  ✅ ${imagesWithMetadata.length} images valides`);
 
             if (imagesWithMetadata.length > 0) {
+              // Séparer images de bâtiments et autres
+              const buildingImages = imagesWithMetadata.filter(img => img.isBuilding);
+              const otherImages = imagesWithMetadata.filter(img => !img.isBuilding);
+
+              console.log(`     → ${buildingImages.length} images de bâtiments, ${otherImages.length} autres images`);
+
               // Trier par année (les plus récentes en premier)
-              imagesWithMetadata.sort((a, b) => {
+              const sortByYear = (a, b) => {
                 if (!a.year && !b.year) return 0;
                 if (!a.year) return 1;
                 if (!b.year) return -1;
                 return b.year - a.year;
-              });
+              };
 
-              // Prioriser les images par type de bâtiment
-              const priorityKeywords = [
-                'mairie', 'hôtel de ville', 'town hall',  // Mairie en priorité
-                'église', 'church', 'chapelle',           // Église
-                'château', 'castle',                      // Château
-                'place', 'centre',                        // Place centrale
-                'monument',                               // Monuments
-                'panorama', 'vue', 'view'                 // Vues générales
-              ];
+              buildingImages.sort(sortByYear);
+              otherImages.sort(sortByYear);
 
               let selectedImage = null;
 
-              // Chercher une image avec mots-clés prioritaires
-              for (const keyword of priorityKeywords) {
-                const priorityImage = imagesWithMetadata.find(img =>
-                  img.title.toLowerCase().includes(keyword) ||
-                  img.cleanDescription.includes(keyword)
-                );
-                if (priorityImage) {
-                  selectedImage = priorityImage;
-                  console.log(`  🎯 Image sélectionnée (priorité "${keyword}"): ${selectedImage.title}`);
-                  break;
+              // 1. D'abord chercher parmi les images de bâtiments avec priorité
+              if (buildingImages.length > 0) {
+                const priorityKeywords = [
+                  'mairie', 'hôtel de ville', 'town hall',  // Mairie en priorité
+                  'église', 'church', 'chapelle',           // Église
+                  'château', 'castle',                      // Château
+                  'place', 'centre',                        // Place centrale
+                  'monument',                               // Monuments
+                  'panorama', 'vue', 'view'                 // Vues générales
+                ];
+
+                for (const keyword of priorityKeywords) {
+                  const priorityImage = buildingImages.find(img =>
+                    img.title.toLowerCase().includes(keyword) ||
+                    img.cleanDescription.includes(keyword)
+                  );
+                  if (priorityImage) {
+                    selectedImage = priorityImage;
+                    console.log(`  🎯 Image sélectionnée (bâtiment prioritaire "${keyword}"): ${selectedImage.title}`);
+                    break;
+                  }
+                }
+
+                // Si aucun mot-clé prioritaire, prendre le premier bâtiment
+                if (!selectedImage) {
+                  selectedImage = buildingImages[0];
+                  console.log(`  🎯 Image sélectionnée (premier bâtiment): ${selectedImage.title}`);
                 }
               }
 
-              // Si on a une image pertinente, la retourner
-              if (!selectedImage && imagesWithMetadata.length > 0) {
-                selectedImage = imagesWithMetadata[0];
-                console.log(`  🎯 Image sélectionnée (première valide): ${selectedImage.title}`);
+              // 2. Sinon prendre n'importe quelle image valide (récente)
+              if (!selectedImage && otherImages.length > 0) {
+                selectedImage = otherImages[0];
+                console.log(`  🎯 Image sélectionnée (image valide): ${selectedImage.title}`);
               }
 
-              // Retourner l'image ou null
+              // Retourner l'image
               if (selectedImage) {
                 return {
                   url: selectedImage.url,
@@ -357,11 +369,12 @@ async function searchWikimediaCommons(communeName) {
                   credit: selectedImage.artist,
                   source: 'Wikimedia Commons'
                 };
-              } else {
-                console.log(`  ⚠️ Aucune image pertinente trouvée, fallback sur carte`);
-                return null;
               }
             }
+
+            // Aucune image trouvée → fallback carte
+            console.log(`  ⚠️ Aucune image trouvée, fallback sur carte`);
+            return null;
           }
         }
       }
