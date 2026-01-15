@@ -1,123 +1,129 @@
-/* PourQuiVoter - Thème Minimal avec Dark Mode */
+/* PourQuiVoter - Minimal Cool Theme (Slate/Blue) */
 
 :root {
-  /* Couleurs principales */
-  --primary: #171717;
-  --primary-hover: #262626;
-  --primary-light: #404040;
+  /* === PALETTE MINIMAL COOL === */
 
-  /* Accent (éléments interactifs, liens, CTA) */
+  /* Couleurs principales (gris ardoise/bleuté) */
+  --primary: #0f172a;
+  --primary-hover: #1e293b;
+  --primary-light: #334155;
+
+  /* Header gradient */
+  --header-bg-start: #1e293b;
+  --header-bg-end: #334155;
+  --header-text: #ffffff;
+
+  /* Backgrounds */
+  --bg-body: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-elevated: #f1f5f9;
+  --bg-input: #ffffff;
+
+  /* Textes */
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --text-tertiary: #94a3b8;
+  --text-inverse: #ffffff;
+
+  /* Bordures */
+  --border: #e2e8f0;
+  --border-hover: #cbd5e1;
+  --border-focus: #94a3b8;
+
+  /* Accent (pour CTA, liens, éléments interactifs) */
   --accent: #2563eb;
   --accent-hover: #1d4ed8;
   --accent-light: rgba(37, 99, 235, 0.1);
 
   /* Succès / Validation */
-  --success: #16a34a;
-  --success-light: rgba(22, 163, 74, 0.1);
+  --success: #059669;
+  --success-light: rgba(5, 150, 105, 0.1);
 
-  /* Erreur / Alerte */
+  /* Erreur */
   --error: #dc2626;
   --error-light: rgba(220, 38, 38, 0.1);
 
-  /* Backgrounds */
-  --bg-body: #ffffff;
-  --bg-card: #ffffff;
-  --bg-elevated: #fafafa;
-  --bg-input: #ffffff;
-
-  /* Textes */
-  --text-primary: #171717;
-  --text-secondary: #525252;
-  --text-tertiary: #a3a3a3;
-  --text-inverse: #ffffff;
-
-  /* Bordures */
-  --border: #e5e5e5;
-  --border-hover: #d4d4d4;
-  --border-focus: #171717;
-
   /* Ombres */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 8px 24px rgba(15, 23, 42, 0.12);
 
-  /* Header */
-  --header-bg: #171717;
-  --header-text: #ffffff;
-
-  /* Rayons de bordure */
+  /* Rayons */
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
+  --radius-xl: 16px;
   --radius-full: 9999px;
 
   /* Transitions */
   --transition-fast: 150ms ease;
   --transition-normal: 250ms ease;
 
+  /* Font */
+  --font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+
   /* Legacy compatibility */
-  --bg-gradient-start: #171717;
-  --bg-gradient-end: #262626;
-  --text: #171717;
-  --border-color: #e5e5e5;
-  --shadow: rgba(0, 0, 0, 0.08);
+  --bg-gradient-start: #1e293b;
+  --bg-gradient-end: #334155;
+  --text: #0f172a;
+  --border-color: #e2e8f0;
+  --shadow: rgba(15, 23, 42, 0.08);
   --radius: 8px;
 }
 
 /* Dark Mode */
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* Couleurs principales inversées */
-    --primary: #ffffff;
-    --primary-hover: #e5e5e5;
-    --primary-light: #a3a3a3;
+[data-theme="dark"] {
+  /* Couleurs principales inversées */
+  --primary: #e2e8f0;
+  --primary-hover: #f1f5f9;
+  --primary-light: #cbd5e1;
 
-    /* Accent plus lumineux */
-    --accent: #3b82f6;
-    --accent-hover: #60a5fa;
-    --accent-light: rgba(59, 130, 246, 0.15);
+  /* Header gradient (plus sombre) */
+  --header-bg-start: #0f172a;
+  --header-bg-end: #1e293b;
+  --header-text: #f1f5f9;
 
-    /* Succès */
-    --success: #22c55e;
-    --success-light: rgba(34, 197, 94, 0.15);
+  /* Backgrounds */
+  --bg-body: #0f172a;
+  --bg-card: #1e293b;
+  --bg-elevated: #334155;
+  --bg-input: #1e293b;
 
-    /* Erreur */
-    --error: #ef4444;
-    --error-light: rgba(239, 68, 68, 0.15);
+  /* Textes */
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-tertiary: #64748b;
+  --text-inverse: #0f172a;
 
-    /* Backgrounds - échelle de gris sombres */
-    --bg-body: #0a0a0a;
-    --bg-card: #171717;
-    --bg-elevated: #262626;
-    --bg-input: #262626;
+  /* Bordures */
+  --border: #334155;
+  --border-hover: #475569;
+  --border-focus: #64748b;
 
-    /* Textes */
-    --text-primary: #fafafa;
-    --text-secondary: #a3a3a3;
-    --text-tertiary: #525252;
-    --text-inverse: #171717;
+  /* Accent (plus lumineux en dark) */
+  --accent: #3b82f6;
+  --accent-hover: #60a5fa;
+  --accent-light: rgba(59, 130, 246, 0.15);
 
-    /* Bordures */
-    --border: #262626;
-    --border-hover: #404040;
-    --border-focus: #525252;
+  /* Succès */
+  --success: #10b981;
+  --success-light: rgba(16, 185, 129, 0.15);
 
-    /* Ombres subtiles */
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
-    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+  /* Erreur */
+  --error: #f87171;
+  --error-light: rgba(248, 113, 113, 0.15);
 
-    /* Header */
-    --header-bg: #0a0a0a;
-    --header-text: #ffffff;
+  /* Ombres (plus fortes en dark) */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.4);
 
-    /* Legacy compatibility */
-    --bg-gradient-start: #0a0a0a;
-    --bg-gradient-end: #171717;
-    --text: #fafafa;
-    --border-color: #262626;
-    --shadow: rgba(0, 0, 0, 0.4);
-  }
+  /* Legacy compatibility */
+  --bg-gradient-start: #0f172a;
+  --bg-gradient-end: #1e293b;
+  --text: #f1f5f9;
+  --border-color: #334155;
+  --shadow: rgba(0, 0, 0, 0.3);
 }
 
 * {
@@ -127,13 +133,13 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-family);
   line-height: 1.6;
   color: var(--text-primary);
   background: var(--bg-body);
   min-height: 100vh;
   padding: 20px;
-  transition: all var(--transition-normal);
+  transition: background var(--transition-normal), color var(--transition-normal);
 }
 
 .container {
@@ -2544,3 +2550,72 @@ footer a {
   color: var(--text-secondary);
 }
 
+
+/* === THEME TOGGLE BUTTON === */
+.theme-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-normal);
+  z-index: 1000;
+  color: var(--text-primary);
+}
+
+.theme-toggle:hover {
+  border-color: var(--border-hover);
+  transform: scale(1.05);
+  box-shadow: var(--shadow-lg);
+}
+
+.theme-toggle:active {
+  transform: scale(0.95);
+}
+
+/* Icônes */
+.theme-toggle .icon-sun,
+.theme-toggle .icon-moon {
+  position: absolute;
+  transition: all var(--transition-fast);
+}
+
+/* Light mode : afficher soleil */
+.theme-toggle .icon-sun {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+.theme-toggle .icon-moon {
+  opacity: 0;
+  transform: rotate(-90deg);
+}
+
+/* Dark mode : afficher lune */
+[data-theme="dark"] .theme-toggle .icon-sun {
+  opacity: 0;
+  transform: rotate(90deg);
+}
+
+[data-theme="dark"] .theme-toggle .icon-moon {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .theme-toggle {
+    bottom: 16px;
+    right: 16px;
+    width: 44px;
+    height: 44px;
+  }
+}

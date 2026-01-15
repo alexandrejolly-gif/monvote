@@ -1281,3 +1281,50 @@ function showNotification(type, message) {
 document.addEventListener('DOMContentLoaded', () => {
   init();
 });
+
+// ======================
+// Theme Toggle
+// ======================
+
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  
+  if (isDark) {
+    html.removeAttribute('data-theme');
+    localStorage.setItem('pqv-theme', 'light');
+  } else {
+    html.setAttribute('data-theme', 'dark');
+    localStorage.setItem('pqv-theme', 'dark');
+  }
+}
+
+function initTheme() {
+  const saved = localStorage.getItem('pqv-theme');
+  
+  if (saved === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  } else if (saved === 'light') {
+    document.documentElement.removeAttribute('data-theme');
+  } else {
+    // Pas de préférence sauvée → utiliser préférence système
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  }
+}
+
+// Écouter les changements de préférence système
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+  // Seulement si pas de préférence sauvée
+  if (!localStorage.getItem('pqv-theme')) {
+    if (e.matches) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+    }
+  }
+});
+
+// Initialiser le thème au chargement
+initTheme();
