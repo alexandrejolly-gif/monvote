@@ -1,25 +1,123 @@
-/* PourQuiVoter - Styles CSS - Mode sombre permanent */
+/* PourQuiVoter - Thème Minimal avec Dark Mode */
 
 :root {
-  --primary: #60a5fa;
-  --primary-dark: #3b82f6;
-  --secondary: #64748b;
-  --success: #34d399;
-  --danger: #f87171;
-  --warning: #fbbf24;
-  --light: #f8fafc;
-  --dark: #1e293b;
-  --border: #e2e8f0;
-  --radius: 8px;
+  /* Couleurs principales */
+  --primary: #171717;
+  --primary-hover: #262626;
+  --primary-light: #404040;
 
-  /* Mode sombre permanent */
-  --bg-gradient-start: #1e1b4b;
-  --bg-gradient-end: #312e81;
-  --bg-card: #1e293b;
-  --text: #f1f5f9;
-  --text-secondary: #94a3b8;
-  --border-color: #334155;
-  --shadow: rgba(0, 0, 0, 0.3);
+  /* Accent (éléments interactifs, liens, CTA) */
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --accent-light: rgba(37, 99, 235, 0.1);
+
+  /* Succès / Validation */
+  --success: #16a34a;
+  --success-light: rgba(22, 163, 74, 0.1);
+
+  /* Erreur / Alerte */
+  --error: #dc2626;
+  --error-light: rgba(220, 38, 38, 0.1);
+
+  /* Backgrounds */
+  --bg-body: #ffffff;
+  --bg-card: #ffffff;
+  --bg-elevated: #fafafa;
+  --bg-input: #ffffff;
+
+  /* Textes */
+  --text-primary: #171717;
+  --text-secondary: #525252;
+  --text-tertiary: #a3a3a3;
+  --text-inverse: #ffffff;
+
+  /* Bordures */
+  --border: #e5e5e5;
+  --border-hover: #d4d4d4;
+  --border-focus: #171717;
+
+  /* Ombres */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+  /* Header */
+  --header-bg: #171717;
+  --header-text: #ffffff;
+
+  /* Rayons de bordure */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+
+  /* Legacy compatibility */
+  --bg-gradient-start: #171717;
+  --bg-gradient-end: #262626;
+  --text: #171717;
+  --border-color: #e5e5e5;
+  --shadow: rgba(0, 0, 0, 0.08);
+  --radius: 8px;
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Couleurs principales inversées */
+    --primary: #ffffff;
+    --primary-hover: #e5e5e5;
+    --primary-light: #a3a3a3;
+
+    /* Accent plus lumineux */
+    --accent: #3b82f6;
+    --accent-hover: #60a5fa;
+    --accent-light: rgba(59, 130, 246, 0.15);
+
+    /* Succès */
+    --success: #22c55e;
+    --success-light: rgba(34, 197, 94, 0.15);
+
+    /* Erreur */
+    --error: #ef4444;
+    --error-light: rgba(239, 68, 68, 0.15);
+
+    /* Backgrounds - échelle de gris sombres */
+    --bg-body: #0a0a0a;
+    --bg-card: #171717;
+    --bg-elevated: #262626;
+    --bg-input: #262626;
+
+    /* Textes */
+    --text-primary: #fafafa;
+    --text-secondary: #a3a3a3;
+    --text-tertiary: #525252;
+    --text-inverse: #171717;
+
+    /* Bordures */
+    --border: #262626;
+    --border-hover: #404040;
+    --border-focus: #525252;
+
+    /* Ombres subtiles */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+
+    /* Header */
+    --header-bg: #0a0a0a;
+    --header-text: #ffffff;
+
+    /* Legacy compatibility */
+    --bg-gradient-start: #0a0a0a;
+    --bg-gradient-end: #171717;
+    --text: #fafafa;
+    --border-color: #262626;
+    --shadow: rgba(0, 0, 0, 0.4);
+  }
 }
 
 * {
@@ -31,21 +129,22 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   line-height: 1.6;
-  color: var(--text);
-  background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+  color: var(--text-primary);
+  background: var(--bg-body);
   min-height: 100vh;
   padding: 20px;
-  transition: background 0.3s ease, color 0.3s ease;
+  transition: all var(--transition-normal);
 }
 
 .container {
   max-width: 900px;
   margin: 0 auto;
   background: var(--bg-card);
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   padding: 40px;
-  box-shadow: 0 20px 60px var(--shadow);
-  transition: background 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border);
+  transition: all var(--transition-normal);
 }
 
 header {
@@ -66,18 +165,19 @@ header {
 
 header h1 {
   font-size: 2.5rem;
-  color: var(--primary);
+  color: var(--text-primary);
   margin-bottom: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
+  font-weight: 700;
 }
 
 .app-logo {
   width: 48px;
   height: 48px;
-  color: var(--primary);
+  color: var(--accent);
   flex-shrink: 0;
 }
 
@@ -392,49 +492,73 @@ body.dark-mode .info-note {
 .btn {
   padding: 12px 24px;
   border: none;
-  border-radius: var(--radius);
+  border-radius: var(--radius-md);
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all var(--transition-fast);
   text-decoration: none;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .btn-primary {
   background: var(--primary);
-  color: white;
+  color: var(--text-inverse);
+  border: none;
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: var(--primary-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
 
 .btn-secondary {
-  background: var(--secondary);
-  color: white;
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border);
 }
 
 .btn-secondary:hover:not(:disabled) {
-  background: #475569;
+  border-color: var(--border-focus);
+  background: var(--bg-elevated);
 }
 
 .btn-success {
   background: var(--success);
   color: white;
+  border: none;
+}
+
+.btn-success:hover:not(:disabled) {
+  background: #15803d;
+}
+
+/* CTA principal avec accent */
+.btn-accent {
+  background: var(--accent);
+  color: white;
+  border: none;
+}
+
+.btn-accent:hover:not(:disabled) {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px var(--accent-light);
 }
 
 .btn-outline {
-  background: var(--bg-card);
-  color: var(--primary);
-  border: 2px solid var(--primary);
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border);
 }
 
 .btn-outline:hover {
-  background: var(--primary);
-  color: white;
+  border-color: var(--border-focus);
+  background: var(--bg-elevated);
 }
 
 .btn:disabled {
