@@ -353,7 +353,7 @@ header h1 {
   transition: transform 0.3s ease;
 }
 
-body.dark-mode .stat-item {
+[data-theme="dark"] .stat-item {
   background: rgba(255, 255, 255, 0.05);
 }
 
@@ -372,7 +372,7 @@ body.dark-mode .stat-item {
   overflow-y: auto;
 }
 
-body.dark-mode .candidats-section {
+[data-theme="dark"] .candidats-section {
   background: rgba(255, 255, 255, 0.03);
   border-color: rgba(255, 255, 255, 0.1);
 }
@@ -392,17 +392,12 @@ body.dark-mode .candidats-section {
 
 .candidat-item {
   padding: 8px 12px;
-  background: white;
+  background: var(--bg-card);
   border-radius: 6px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   font-size: 0.85rem;
-  color: var(--text-color);
+  color: var(--text-primary);
   transition: all 0.2s ease;
-}
-
-body.dark-mode .candidat-item {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.1);
 }
 
 .candidat-item:hover {
@@ -411,7 +406,7 @@ body.dark-mode .candidat-item {
   border-color: var(--primary);
 }
 
-body.dark-mode .candidat-item:hover {
+[data-theme="dark"] .candidat-item:hover {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
@@ -421,7 +416,7 @@ body.dark-mode .candidat-item:hover {
   font-weight: 600;
 }
 
-body.dark-mode .candidat-item.maire-sortant {
+[data-theme="dark"] .candidat-item.maire-sortant {
   background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(147, 51, 234, 0.15));
 }
 
@@ -490,7 +485,7 @@ body.dark-mode .candidat-item.maire-sortant {
   line-height: 1.4;
 }
 
-body.dark-mode .info-note {
+[data-theme="dark"] .info-note {
   background: rgba(96, 165, 250, 0.15);
 }
 
@@ -663,7 +658,7 @@ body.dark-mode .info-note {
 }
 
 .link-back-quiz {
-  color: var(--primary);
+  color: var(--accent);
   font-size: 1.3rem;
   text-decoration: none;
   display: flex;
@@ -673,7 +668,7 @@ body.dark-mode .info-note {
 
 .link-back-quiz:hover {
   transform: translateX(-3px);
-  opacity: 0.7;
+  color: var(--accent-hover);
 }
 
 .quiz-title-progress {
@@ -756,7 +751,7 @@ body.dark-mode .info-note {
   background: var(--primary);
 }
 
-body.dark-mode .theme-indicator.covered {
+[data-theme="dark"] .theme-indicator.covered {
   background: rgba(96, 165, 250, 0.15);
 }
 
@@ -828,13 +823,8 @@ body.dark-mode .theme-indicator.covered {
 }
 
 .answer-option.selected {
-  border-color: var(--primary);
-  background: #eff6ff;
-}
-
-body.dark-mode .answer-option.selected {
-  background: rgba(96, 165, 250, 0.15);
-  border-color: var(--primary);
+  border-color: var(--accent);
+  background: var(--accent-light);
 }
 
 .answer-option input[type="radio"] {
@@ -866,7 +856,7 @@ body.dark-mode .answer-option.selected {
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
 }
 
-body.dark-mode .quiz-nav {
+[data-theme="dark"] .quiz-nav {
   background: rgba(30, 41, 59, 0.95);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
@@ -2033,14 +2023,18 @@ a {
 /* Footer */
 footer {
   text-align: center;
-  color: white;
+  color: var(--text-secondary);
   margin-top: 40px;
   font-size: 0.9rem;
 }
 
 footer a {
-  color: white;
+  color: var(--accent);
   text-decoration: underline;
+}
+
+footer a:hover {
+  color: var(--accent-hover);
 }
 
 .contribute-link {
