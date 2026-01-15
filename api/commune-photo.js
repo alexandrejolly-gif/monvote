@@ -146,7 +146,26 @@ async function searchGoogleImages(communeName) {
 }
 
 function isImageValid(text) {
-  // AUCUN FILTRE - Accepter toutes les images pour debug
+  if (!text) return true;
+
+  const lowerText = text.toLowerCase();
+
+  // Rejeter les images de personnes
+  const personKeywords = [
+    'portrait', 'maire actuel', 'politician', 'homme politique',
+    'député', 'conseiller', 'sénateur', 'personnalité',
+    'ministre', 'président', 'adjointe', 'adjoint',
+    // Patterns pour détecter des noms de personnes
+    'emmanuel', 'grégoire (', '(politician)', '(maire',
+    'visage', 'face', 'headshot'
+  ];
+
+  for (const keyword of personKeywords) {
+    if (lowerText.includes(keyword)) {
+      return false;
+    }
+  }
+
   return true;
 }
 
@@ -157,7 +176,7 @@ function isImageValid(text) {
 async function searchWikimediaCommons(communeName) {
   try {
     // 1. Essayer de trouver la page Wikipedia de la commune
-    const wikipediaSearchUrl = `https://fr.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(communeName + ' commune france')}&format=json&origin=*`;
+    const wikipediaSearchUrl = `https://fr.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(communeName + ' Ille-et-Vilaine commune')}&format=json&origin=*`;
 
     const searchResponse = await fetch(wikipediaSearchUrl);
     const searchData = await searchResponse.json();
@@ -181,6 +200,12 @@ async function searchWikimediaCommons(communeName) {
           // Filtrer pour obtenir des images pertinentes
           const relevantImages = page.images.filter(img => {
             const name = img.title.toLowerCase();
+
+            // Rejeter les fichiers contenant des noms de personnes
+            if (name.includes('emmanuel') || name.includes('portrait')) {
+              return false;
+            }
+
             return isImageValid(name) &&
                    !name.includes('.svg') &&
                    (name.includes('.jpg') || name.includes('.jpeg') || name.includes('.png'));
