@@ -659,17 +659,39 @@ async function showCommuneInfo() {
 
             // En cas d'erreur de chargement de l'image
             photoImg.onerror = () => {
-              photoImg.style.display = 'none';
+              loadStaticMap();
             };
           } else {
-            // Pas de photo trouvée, on garde juste le gradient
-            photoImg.style.display = 'none';
+            // Pas de photo trouvée, afficher une carte statique
+            loadStaticMap();
           }
         })
         .catch(error => {
-          console.log(`ℹ️ Pas de photo trouvée pour ${commune.nom}, utilisation du gradient`);
-          photoImg.style.display = 'none';
+          console.log(`ℹ️ Pas de photo trouvée pour ${commune.nom}, utilisation d'une carte`);
+          loadStaticMap();
         });
+
+      // Fonction pour charger une carte statique
+      function loadStaticMap() {
+        if (commune.lat && commune.lng) {
+          // Utiliser l'API de cartes statiques OSM via Wikimedia
+          const zoom = 13;
+          const width = 800;
+          const height = 400;
+          const mapUrl = `https://maps.wikimedia.org/img/osm-intl,${zoom},${commune.lat},${commune.lng},${width}x${height}.png`;
+
+          photoImg.src = mapUrl;
+          photoImg.alt = `Carte de ${commune.nom}`;
+          photoImg.onload = () => {
+            photoImg.style.opacity = '0.8';  // Légèrement transparent pour indiquer que c'est une carte
+          };
+          photoImg.onerror = () => {
+            photoImg.style.display = 'none';  // Si la carte ne charge pas, on cache
+          };
+        } else {
+          photoImg.style.display = 'none';
+        }
+      }
     }
   }
 
