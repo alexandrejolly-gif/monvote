@@ -1,22 +1,13 @@
 {
   "version": 2,
-  "routes": [
-    {
-      "src": "/admin/?",
-      "dest": "/admin/index.html"
-    },
-    {
-      "src": "/admin/(.*)",
-      "dest": "/admin/$1"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/public/$1"
-    }
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/", "destination": "/public/index.html" },
+    { "source": "/admin", "destination": "/admin/index.html" },
+    { "source": "/:file((?!admin|api).*\\.(js|css|html|png|jpg|svg|ico|json))", "destination": "/public/:file" },
+    { "source": "/admin/:file(.*\\.(js|css|html))", "destination": "/admin/:file" },
+    { "source": "/api/(.*)", "destination": "/api/$1" }
   ],
   "functions": {
     "api/**/*.js": {
