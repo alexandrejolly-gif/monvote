@@ -103,11 +103,13 @@
   font-size: 2.2rem;
   font-weight: bold;
   margin-bottom: 8px;
+  color: white;
 }
 
 .stat-label {
   font-size: 0.9rem;
   opacity: 0.9;
+  color: white;
 }
 
 /* Quick actions */

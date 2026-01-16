@@ -43,6 +43,13 @@ const mimeTypes = {
 const server = createServer(async (req, res) => {
   console.log(`${req.method} ${req.url}`);
 
+  // Handle favicon.ico
+  if (req.url === '/favicon.ico') {
+    res.statusCode = 204;
+    res.end();
+    return;
+  }
+
   // Handle API routes
   if (req.url.startsWith('/api/')) {
     try {

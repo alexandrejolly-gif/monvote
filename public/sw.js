@@ -22,6 +22,11 @@ self.addEventListener('install', (event) => {
 
 // Fetch : servir depuis le cache si disponible, sinon réseau
 self.addEventListener('fetch', (event) => {
+  // Ignorer les requêtes externes (cross-origin)
+  if (!event.request.url.startsWith(self.location.origin)) {
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request)
       .then((response) => {
@@ -30,6 +35,10 @@ self.addEventListener('fetch', (event) => {
           return response;
         }
         // Sinon fetch depuis le réseau
+        return fetch(event.request);
+      })
+      .catch((error) => {
+        console.error('Erreur fetch:', error);
         return fetch(event.request);
       })
   );
