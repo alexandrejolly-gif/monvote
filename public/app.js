@@ -1195,7 +1195,13 @@ function setupEventListeners() {
   // Rendre le nouveau header cliquable pour revenir à l'accueil
   const header = document.querySelector('.header');
   if (header) {
-    header.addEventListener('click', restart);
+    header.addEventListener('click', (e) => {
+      // Ne pas redémarrer si on clique sur le bouton theme-toggle
+      if (e.target.closest('.theme-toggle')) {
+        return;
+      }
+      restart();
+    });
   }
 
   elements.communeSelect.addEventListener('change', (e) => {
