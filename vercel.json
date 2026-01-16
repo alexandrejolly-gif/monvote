@@ -15,7 +15,16 @@
     { "source": "/contribuer.html", "destination": "/public/contribuer.html" },
     { "source": "/contribuer.js", "destination": "/public/contribuer.js" },
     { "source": "/methodologie.html", "destination": "/public/methodologie.html" },
-    { "source": "/test-upload.html", "destination": "/public/test-upload.html" }
+    { "source": "/test-upload.html", "destination": "/public/test-upload.html" },
+    { "source": "/admin", "destination": "/admin/index.html" },
+    { "source": "/admin/", "destination": "/admin/index.html" },
+    { "source": "/admin/index.html", "destination": "/admin/index.html" },
+    { "source": "/admin/data.html", "destination": "/admin/data.html" },
+    { "source": "/admin/moderation.html", "destination": "/admin/moderation.html" },
+    { "source": "/admin/questions.html", "destination": "/admin/questions.html" },
+    { "source": "/admin/admin.js", "destination": "/admin/admin.js" },
+    { "source": "/admin/data.js", "destination": "/admin/data.js" },
+    { "source": "/admin/styles.css", "destination": "/admin/styles.css" }
   ],
   "functions": {
     "api/**/*.js": {
