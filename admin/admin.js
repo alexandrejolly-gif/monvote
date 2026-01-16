@@ -558,7 +558,7 @@ function updateSearchCostEstimate() {
     if (numSelected === 0) {
       costElement.textContent = 'Sélectionnez des communes pour voir le coût';
     } else {
-      const estimatedCost = (numSelected * 0.10).toFixed(2);
+      const estimatedCost = (numSelected * 0.025).toFixed(3);
       costElement.textContent = `~$${estimatedCost} pour ${numSelected} commune(s)`;
     }
   }
@@ -781,12 +781,12 @@ function updateAddCostEstimate() {
   const generateQuestions = document.getElementById('opt-generate-questions')?.checked;
   const calculatePositions = document.getElementById('opt-calculate-positions')?.checked;
 
-  // Rough cost estimation based on options
+  // Rough cost estimation based on options (optimized with Haiku)
   let costPerCommune = 0;
-  if (searchCandidats) costPerCommune += 0.05;
-  if (searchProgrammes) costPerCommune += 0.05;
-  if (generateQuestions) costPerCommune += 0.08;
-  if (calculatePositions) costPerCommune += 0.02;
+  if (searchCandidats) costPerCommune += 0.012;  // Sonnet 1024 tokens
+  if (searchProgrammes) costPerCommune += 0.01;   // Sonnet 1024 tokens (per candidat, avg 2-3)
+  if (generateQuestions) costPerCommune += 0.02;  // Sonnet 2048 tokens
+  if (calculatePositions) costPerCommune += 0.0005; // Haiku 512 tokens (negligible)
 
   if (costElement) {
     if (numSelected === 0) {
@@ -1198,12 +1198,12 @@ function updateUpdateCostEstimate() {
   const regenerateQuestions = document.getElementById('opt-update-regenerate-questions')?.checked;
   const recalculatePositions = document.getElementById('opt-update-recalculate-positions')?.checked;
 
-  // Rough cost estimation based on options
+  // Rough cost estimation based on options (optimized with Haiku)
   let costPerCommune = 0;
-  if (searchCandidats) costPerCommune += 0.03;
-  if (updateProgrammes) costPerCommune += 0.02;
-  if (regenerateQuestions) costPerCommune += 0.08;
-  if (recalculatePositions) costPerCommune += 0.02;
+  if (searchCandidats) costPerCommune += 0.012;  // Sonnet 1024 tokens
+  if (updateProgrammes) costPerCommune += 0.01;   // Sonnet 1024 tokens (per candidat)
+  if (regenerateQuestions) costPerCommune += 0.02;  // Sonnet 2048 tokens
+  if (recalculatePositions) costPerCommune += 0.0005; // Haiku 512 tokens (negligible)
 
   if (costElement) {
     if (numSelected === 0) {
