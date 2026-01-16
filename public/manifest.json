@@ -1,21 +1,25 @@
 {
-  "name": "MonVote - Quiz Electoral",
-  "short_name": "MonVote",
-  "description": "Trouvez le candidat qui vous correspond pour les municipales 2026",
+  "name": "PourQuiVoter",
+  "short_name": "PourQuiVoter",
+  "description": "Trouvez votre candidat aux municipales 2026 - Rennes Métropole",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#2563eb",
+  "background_color": "#f8fafc",
+  "theme_color": "#1e293b",
+  "orientation": "portrait-primary",
+  "scope": "/",
   "icons": [
     {
-      "src": "/icon-192.png",
+      "src": "/icons/icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "/icon-512.png",
+      "src": "/icons/icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }

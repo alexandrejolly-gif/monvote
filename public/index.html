@@ -6,6 +6,21 @@
   <title>PourQuiVoter - Quiz Electoral Municipales 2026</title>
   <meta name="description" content="Ne votez plus au hasard pour les municipales 2026">
 
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#1e293b">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="PourQuiVoter">
+
+  <!-- Manifest -->
+  <link rel="manifest" href="/manifest.json">
+
+  <!-- Icônes Apple -->
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32.png">
+
   <!-- Anti-FOUC: Load theme before render -->
   <script>
     (function() {
@@ -26,25 +41,18 @@
 </head>
 <body>
   <div class="container">
-    <header>
-      <div class="header-content">
-        <div>
-          <h1 id="app-title">
-            <svg class="app-logo" width="48" height="48" viewBox="0 0 36 36" fill="none"
-                 stroke="currentColor" stroke-width="2"
-                 stroke-linecap="round" stroke-linejoin="round">
-              <!-- Urne -->
-              <path d="M6 14V30H30V14"/>
-              <path d="M6 14L10 14L10 10"/>
-              <path d="M30 14L26 14L26 10"/>
-              <!-- Bulletin incliné avec coche -->
-              <rect x="12" y="4" width="14" height="14" rx="1" transform="rotate(15 19 11)"/>
-              <path d="M16 11L18.5 13.5L24 8" transform="rotate(15 19 11)"/>
-            </svg>
-            PourQuiVoter
-          </h1>
-          <p class="tagline">Ne votez plus au hasard</p>
-        </div>
+    <header class="header">
+      <div class="header-logo">
+        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="10" width="32" height="22" rx="3" fill="#3b82f6" stroke="white" stroke-width="2"/>
+          <path d="M4 13L20 23L36 13" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          <rect x="12" y="4" width="16" height="14" rx="2" fill="white"/>
+          <path d="M16 10L19 13L25 7" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="header-text">
+        <span class="header-title">PourQuiVoter</span>
+        <span class="header-tagline">Votez en connaissance de cause</span>
       </div>
     </header>
 
@@ -63,125 +71,63 @@
 
       <div id="map-container" style="height: 400px; margin-top: 20px; border-radius: 8px; overflow: hidden;"></div>
 
+      <!-- Bandeau d'infos commune sous la carte -->
+      <div class="commune-info-bar hidden" id="commune-info-bar">
+        <div class="info-item">
+          <span class="info-item-icon">👥</span>
+          <span class="info-item-value" id="info-bar-population">-</span>
+          <span>habitants</span>
+        </div>
+
+        <span class="info-separator"></span>
+
+        <div class="info-item">
+          <span class="info-item-icon">🏛️</span>
+          <span class="info-item-value" id="info-bar-maire">-</span>
+          <span>maire sortant</span>
+        </div>
+
+        <span class="info-separator"></span>
+
+        <div class="info-item candidats-tooltip-trigger">
+          <span class="info-item-icon">🗳️</span>
+          <span class="info-item-value" id="info-bar-nb-candidats">-</span>
+          <span>candidats</span>
+          <svg class="tooltip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+
+          <div class="candidats-tooltip">
+            <ul id="info-bar-candidats-list">
+              <!-- Rempli dynamiquement -->
+            </ul>
+          </div>
+        </div>
+      </div>
+
       <div class="actions">
         <button id="btn-start-quiz" class="btn btn-primary btn-start-quiz-main" disabled>
           <span data-icon="target"></span> Commencer le quiz
         </button>
       </div>
 
-      <div class="contribute-link">
-        <a href="/contribuer.html"><span data-icon="lightbulb"></span> Vous avez des tracts de campagne ? Contribuez !</a>
+      <div class="footer-line">
+        <p class="transparency-text">
+          15 questions neutres • Réponses anonymes • Données non conservées
+        </p>
+        <p class="contribute-link">
+          <a href="/contribuer.html"><span data-icon="lightbulb"></span> Vous avez des tracts de campagne ? Contribuez !</a>
+        </p>
       </div>
     </section>
 
-    <!-- Étape 2 : Info commune sélectionnée -->
-    <section id="step-commune-info" class="step commune-info-screen">
-      <!-- Image de fond -->
-      <div class="commune-background" id="commune-background"></div>
-
-      <!-- Contenu -->
-      <div class="commune-content">
-      <div class="commune-info-card">
-        <!-- Photo de la commune -->
-        <div id="commune-photo-container" class="commune-photo-container">
-          <img id="commune-photo" class="commune-photo" src="" alt="Photo de la commune">
-          <div class="commune-photo-overlay">
-            <div>
-              <span id="commune-photo-name" class="commune-photo-name"></span>
-              <div id="maire-badge" class="maire-badge" style="display: none;">
-                <span class="maire-icon" data-icon="necktie"></span>
-                <span id="maire-nom"></span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="commune-info-stats">
-          <div class="stat-item">
-            <div class="stat-icon" data-icon="users" data-icon-size="32"></div>
-            <div class="stat-content">
-              <div class="stat-value" id="info-population">-</div>
-              <div class="stat-label">habitants</div>
-            </div>
-          </div>
-
-          <div class="stat-item">
-            <div class="stat-icon" data-icon="vote" data-icon-size="32"></div>
-            <div class="stat-content">
-              <div class="stat-value" id="info-candidats">-</div>
-              <div class="stat-label">candidats</div>
-            </div>
-          </div>
-
-          <div class="stat-item">
-            <div class="stat-icon" data-icon="edit" data-icon-size="32"></div>
-            <div class="stat-content">
-              <div class="stat-value" id="info-questions">15</div>
-              <div class="stat-label">questions</div>
-            </div>
-          </div>
-
-          <div class="stat-item">
-            <div class="stat-icon" data-icon="clock" data-icon-size="32"></div>
-            <div class="stat-content">
-              <div class="stat-value">3-5</div>
-              <div class="stat-label">minutes</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Liste des candidats en accordéon -->
-        <div id="candidats-section" class="candidats-accordion" style="display: none;">
-          <button class="accordion-toggle" id="accordion-candidats-toggle" onclick="toggleCandidats()">
-            <span><span data-icon="vote"></span> Voir les <span id="nb-candidats-display">0</span> candidats</span>
-            <span class="accordion-icon">▼</span>
-          </button>
-          <div class="accordion-content" id="candidats-liste" style="display: none;"></div>
-        </div>
-
-        <div class="commune-info-details">
-          <div class="info-grid">
-            <div class="info-column">
-              <h3><span data-icon="info"></span> Ce quiz est basé sur :</h3>
-              <ul class="info-list">
-                <li><span data-icon="check"></span> Les propositions des candidats déclarés</li>
-                <li><span data-icon="check"></span> Les enjeux locaux spécifiques à votre commune</li>
-              </ul>
-            </div>
-            <div class="info-column">
-              <h3><span data-icon="lock"></span> Transparence :</h3>
-              <p class="info-note">
-                Les questions sont générées de manière neutre.
-                Vos réponses restent anonymes et ne sont pas conservées.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="actions actions-info-commune">
-          <a href="#" id="link-back-to-map" class="link-change-commune"><span data-icon="arrow-left"></span> Changer de commune</a>
-          <button id="btn-start-quiz-confirm" class="btn btn-primary btn-start-quiz-main"><span data-icon="target"></span> Commencer le quiz</button>
-        </div>
-      </div>
-      </div>
-
-      <!-- Crédit photo -->
-      <div class="photo-credit" id="photo-credit"></div>
-    </section>
-
-    <!-- Étape 3 : Quiz -->
+    <!-- Étape 2 : Quiz (l'ancien écran info commune a été supprimé) -->
     <section id="step-quiz" class="step">
       <div class="quiz-header-compact">
         <a href="#" id="link-back-to-commune" class="link-back-quiz"><span data-icon="arrow-left"></span></a>
-        <div class="quiz-title-progress">
-          <h2 id="quiz-commune">Quiz</h2>
-          <div class="progress-inline">
-            <div class="progress-bar">
-              <div id="progress-fill" class="progress-fill"></div>
-            </div>
-            <p class="progress-text">Q<span id="current-question">1</span>/<span id="total-questions">10</span></p>
-          </div>
-        </div>
+        <h2 id="quiz-commune">Quiz</h2>
       </div>
 
       <div class="current-theme-badge">
@@ -193,10 +139,31 @@
         <!-- Questions générées dynamiquement -->
       </div>
 
-      <div class="quiz-nav quiz-nav-sticky">
-        <button id="btn-prev" class="btn btn-secondary" disabled><span data-icon="arrow-left"></span> Précédent</button>
-        <button id="btn-next" class="btn btn-primary" disabled>Suivant <span data-icon="arrow-right"></span></button>
-        <button id="btn-results" class="btn btn-success" style="display:none;">Voir les résultats <span data-icon="target"></span></button>
+      <div class="quiz-nav">
+        <button class="btn-icon btn-prev" id="btn-prev" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15,18 9,12 15,6"/>
+          </svg>
+          Précédent
+        </button>
+
+        <div class="progress-section">
+          <div class="progress-text">Question <span id="current-question">1</span> / <span id="total-questions">15</span></div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill" style="width: 6.67%"></div>
+          </div>
+        </div>
+
+        <button class="btn-icon btn-next" id="btn-next" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9,6 15,12 9,18"/>
+          </svg>
+          Suivant
+        </button>
+
+        <button class="btn-results" id="btn-results">
+          <span data-icon="target"></span> Voir les résultats
+        </button>
       </div>
     </section>
 
@@ -228,7 +195,6 @@
 
   <footer>
     <p>PourQuiVoter - Municipales 2026 - Rennes Métropole</p>
-    <p><a href="/admin/index.html">Admin</a> | <a href="https://github.com">Code source</a></p>
   </footer>
 
   <!-- Theme Toggle Button -->

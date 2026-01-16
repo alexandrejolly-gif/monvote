@@ -1,0 +1,43 @@
+# Fichiers temporaires Claude (CRITIQUE)
+tmpclaude-*
+
+# Dépendances
+node_modules/
+package-lock.json
+
+# Scripts de maintenance (pas besoin pour le dev quotidien)
+add-*.js
+check-*.js
+clear-*.js
+debug-*.js
+diagnostic-*.js
+fetch-*.js
+fix-*.js
+generate-*.js
+init-*.js
+position-*.js
+regenerate-*.js
+reset-*.js
+run-*.js
+sync-*.js
+test-*.js
+verify-*.js
+
+# Documentation (pas besoin pour coder)
+*.md
+!README.md
+
+# Tests
+test/
+scripts/
+
+# Database migrations (rarement modifiées)
+database/*.sql
+
+# Fichiers de config rarement modifiés
+.env*
+vercel.json
+.gitignore
+
+# Dossier .claude
+.claude/

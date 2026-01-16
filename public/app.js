@@ -43,14 +43,13 @@ const THEME_EMOJIS = {
 // Éléments DOM
 const elements = {
   stepCommune: document.getElementById('step-commune'),
-  stepCommuneInfo: document.getElementById('step-commune-info'),
+  // stepCommuneInfo supprimé (écran 2 supprimé)
   stepQuiz: document.getElementById('step-quiz'),
   stepResults: document.getElementById('step-results'),
   communeSelect: document.getElementById('commune-select'),
   btnGeoloc: document.getElementById('btn-geoloc'),
   btnStartQuiz: document.getElementById('btn-start-quiz'),
-  btnBackToMap: document.getElementById('btn-back-to-map'),
-  btnStartQuizConfirm: document.getElementById('btn-start-quiz-confirm'),
+  // btnBackToMap et btnStartQuizConfirm supprimés (écran 2 supprimé)
   btnPrev: document.getElementById('btn-prev'),
   btnNext: document.getElementById('btn-next'),
   btnResults: document.getElementById('btn-results'),
@@ -301,48 +300,22 @@ async function initMap() {
             dashArray: hasCandidats ? null : '5, 5'
           },
           onEachFeature: (feature, layer) => {
-            // Popup enrichie avec maire sortant + candidats
-            let popupContent = `<div style="min-width: 200px;">
-              <h3 style="margin: 0 0 8px 0; font-size: 1.1rem;">${commune.nom}</h3>`;
+            // Hover effects
+            layer.on('mouseover', function() {
+              if (hasCandidats && state.selectedCommune?.code !== code) {
+                this.setStyle({ fillOpacity: 0.4, weight: 3 });
+              }
+            });
 
-            // Population + candidats
-            popupContent += `<div style="margin-bottom: 6px;">${getIcon('users', 16)} ${commune.population.toLocaleString()} hab. | ${getIcon('vote', 16)} ${nbCandidats} candidat${nbCandidats > 1 ? 's' : ''}</div>`;
-
-            // Avertissement si aucun candidat
-            if (!hasCandidats) {
-              popupContent += `<div style="margin-top: 8px; padding: 8px; background: #ffeaa7; border-radius: 4px; color: #d63031;">
-                ${getIcon('alert-triangle', 16)} <strong>Aucun candidat disponible</strong><br>
-                <small>Quiz non disponible pour cette commune</small>
-              </div>`;
-            }
-
-            // Maire sortant
-            if (commune.maire_sortant) {
-              const initiale = commune.maire_sortant.prenom ? commune.maire_sortant.prenom.charAt(0) + '. ' : '';
-              popupContent += `<div style="margin-top: 6px; padding-top: 6px; border-top: 1px solid #e0e0e0;">
-                ${getIcon('necktie', 16)} ${initiale}${commune.maire_sortant.nom} - <em>Sortant${commune.maire_sortant.prenom && commune.maire_sortant.prenom.toLowerCase().endsWith('e') ? 'e' : ''}</em>
-              </div>`;
-            }
-
-            popupContent += `</div>`;
-
-            layer.bindPopup(popupContent);
+            layer.on('mouseout', function() {
+              if (hasCandidats && state.selectedCommune?.code !== code) {
+                this.setStyle({ fillOpacity: 0.2, weight: 2 });
+              }
+            });
 
             // Click handler seulement si la commune a des candidats
             if (hasCandidats) {
               layer.on('click', () => selectCommune(code));
-
-              // Hover effects
-              layer.on('mouseover', function() {
-                if (state.selectedCommune?.code !== code) {
-                  this.setStyle({ fillOpacity: 0.4, weight: 3 });
-                }
-              });
-              layer.on('mouseout', function() {
-                if (state.selectedCommune?.code !== code) {
-                  this.setStyle({ fillOpacity: 0.2, weight: 2 });
-                }
-              });
             } else {
               // Curseur différent pour les communes sans candidats
               layer.on('mouseover', function() {
@@ -362,29 +335,6 @@ async function initMap() {
           const nbCandidats = commune.nb_candidats || 0;
           const hasCandidats = nbCandidats > 0;
 
-          // Popup enrichie pour marker
-          let popupContent = `<div style="min-width: 200px;">
-            <h3 style="margin: 0 0 8px 0; font-size: 1.1rem;">${commune.nom}</h3>`;
-
-          popupContent += `<div style="margin-bottom: 6px;">${getIcon('users', 16)} ${commune.population.toLocaleString()} hab. | ${getIcon('vote', 16)} ${nbCandidats} candidat${nbCandidats > 1 ? 's' : ''}</div>`;
-
-          // Avertissement si aucun candidat
-          if (!hasCandidats) {
-            popupContent += `<div style="margin-top: 8px; padding: 8px; background: #ffeaa7; border-radius: 4px; color: #d63031;">
-              ${getIcon('alert-triangle', 16)} <strong>Aucun candidat disponible</strong><br>
-              <small>Quiz non disponible pour cette commune</small>
-            </div>`;
-          }
-
-          if (commune.maire_sortant) {
-            const initiale = commune.maire_sortant.prenom ? commune.maire_sortant.prenom.charAt(0) + '. ' : '';
-            popupContent += `<div style="margin-top: 6px; padding-top: 6px; border-top: 1px solid #e0e0e0;">
-              ${getIcon('necktie', 16)} ${initiale}${commune.maire_sortant.nom} - <em>Sortant${commune.maire_sortant.prenom && commune.maire_sortant.prenom.toLowerCase().endsWith('e') ? 'e' : ''}</em>
-            </div>`;
-          }
-
-          popupContent += `</div>`;
-
           // Icône différente pour les communes sans candidats
           const markerOptions = hasCandidats ? {} : {
             opacity: 0.4,
@@ -397,8 +347,7 @@ async function initMap() {
           };
 
           const marker = L.marker([commune.lat, commune.lng], markerOptions)
-            .addTo(map)
-            .bindPopup(popupContent);
+            .addTo(map);
 
           // Click handler seulement si la commune a des candidats
           if (hasCandidats) {
@@ -430,29 +379,6 @@ function initMapWithMarkers() {
       const nbCandidats = commune.nb_candidats || 0;
       const hasCandidats = nbCandidats > 0;
 
-      // Popup enrichie
-      let popupContent = `<div style="min-width: 200px;">
-        <h3 style="margin: 0 0 8px 0; font-size: 1.1rem;">${commune.nom}</h3>`;
-
-      popupContent += `<div style="margin-bottom: 6px;">👥 ${commune.population.toLocaleString()} hab. | 🗳️ ${nbCandidats} candidat${nbCandidats > 1 ? 's' : ''}</div>`;
-
-      // Avertissement si aucun candidat
-      if (!hasCandidats) {
-        popupContent += `<div style="margin-top: 8px; padding: 8px; background: #ffeaa7; border-radius: 4px; color: #d63031;">
-          ⚠️ <strong>Aucun candidat disponible</strong><br>
-          <small>Quiz non disponible pour cette commune</small>
-        </div>`;
-      }
-
-      if (commune.maire_sortant) {
-        const initiale = commune.maire_sortant.prenom ? commune.maire_sortant.prenom.charAt(0) + '. ' : '';
-        popupContent += `<div style="margin-top: 6px; padding-top: 6px; border-top: 1px solid #e0e0e0;">
-          👔 ${initiale}${commune.maire_sortant.nom} - <em>Sortant${commune.maire_sortant.prenom && commune.maire_sortant.prenom.toLowerCase().endsWith('e') ? 'e' : ''}</em>
-        </div>`;
-      }
-
-      popupContent += `</div>`;
-
       // Icône différente pour les communes sans candidats
       const markerOptions = hasCandidats ? {} : {
         opacity: 0.4,
@@ -465,8 +391,7 @@ function initMapWithMarkers() {
       };
 
       const marker = L.marker([commune.lat, commune.lng], markerOptions)
-        .addTo(map)
-        .bindPopup(popupContent);
+        .addTo(map);
 
       // Click handler seulement si la commune a des candidats
       if (hasCandidats) {
@@ -500,12 +425,86 @@ function selectCommune(code) {
   if (state.selectedCommune) {
     console.log(`✅ Commune trouvée: ${state.selectedCommune.nom}`);
     elements.communeSelect.value = code;
+    elements.communeSelect.classList.add('commune-selected'); // Ajoute une classe pour styling
     elements.btnStartQuiz.disabled = false;
 
     // Surligner la commune sur la carte
     highlightCommuneOnMap(code);
+
+    // Mettre à jour le bandeau d'infos
+    updateCommuneInfoBar(state.selectedCommune);
   } else {
     console.error(`❌ Commune non trouvée pour le code: ${code}`);
+  }
+}
+
+// Fonction pour mettre à jour le bandeau d'infos commune
+function updateCommuneInfoBar(commune) {
+  const infoBar = document.getElementById('commune-info-bar');
+
+  if (!commune) {
+    if (infoBar) infoBar.classList.add('hidden');
+    return;
+  }
+
+  // Afficher le bandeau
+  if (infoBar) infoBar.classList.remove('hidden');
+
+  // Population
+  const populationEl = document.getElementById('info-bar-population');
+  if (populationEl) {
+    const population = commune.population || commune.habitants || '-';
+    populationEl.textContent = typeof population === 'number' ? population.toLocaleString('fr-FR') : population;
+  }
+
+  // Maire sortant
+  const maireEl = document.getElementById('info-bar-maire');
+  if (maireEl) {
+    let maire = '-';
+    if (commune.maire_sortant) {
+      if (typeof commune.maire_sortant === 'string') {
+        maire = commune.maire_sortant;
+      } else if (commune.maire_sortant.nom) {
+        const initiale = commune.maire_sortant.prenom ? commune.maire_sortant.prenom.charAt(0) + '. ' : '';
+        maire = `${initiale}${commune.maire_sortant.nom}`;
+      }
+    }
+    maireEl.textContent = maire;
+  }
+
+  // Charger les candidats depuis l'API
+  const nbCandidatsEl = document.getElementById('info-bar-nb-candidats');
+  const listElement = document.getElementById('info-bar-candidats-list');
+
+  if (commune.code) {
+    fetch(`${API_BASE}/api/get-candidats?code=${commune.code}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.candidats && data.candidats.length > 0) {
+          // Nombre de candidats
+          if (nbCandidatsEl) {
+            nbCandidatsEl.textContent = data.candidats.length;
+          }
+
+          // Liste des candidats dans le tooltip
+          if (listElement) {
+            const maireNom = commune.maire_sortant?.nom || commune.maire_sortant || '';
+            listElement.innerHTML = data.candidats.map(c => {
+              const isSortant = c.is_maire_sortant || c.sortant || c.maire_sortant || c.nom === maireNom;
+              const nom = `${c.prenom || ''} ${c.nom}`.trim();
+              return `<li>${nom}${isSortant ? ' <span class="candidat-sortant">sortant</span>' : ''}</li>`;
+            }).join('');
+          }
+        } else {
+          if (nbCandidatsEl) nbCandidatsEl.textContent = commune.nb_candidats || 0;
+          if (listElement) listElement.innerHTML = '<li>Aucun candidat trouvé</li>';
+        }
+      })
+      .catch(err => {
+        console.log('Impossible de charger les candidats:', err);
+        if (nbCandidatsEl) nbCandidatsEl.textContent = commune.nb_candidats || 0;
+        if (listElement) listElement.innerHTML = '<li>Informations non disponibles</li>';
+      });
   }
 }
 
@@ -534,13 +533,14 @@ function highlightCommuneOnMap(code) {
       });
     }
 
-    // Pan/zoom vers la commune sélectionnée
+    // Centrer la carte sur la commune (sans zoomer)
     if (layer.getBounds) {
-      // GeoJSON layer avec bounds
-      map.fitBounds(layer.getBounds(), { padding: [50, 50] });
+      // GeoJSON layer avec bounds - centrer sur le centre du polygone
+      const center = layer.getBounds().getCenter();
+      map.panTo(center, { animate: true, duration: 0.5 });
     } else if (layer.getLatLng) {
-      // Marker
-      map.setView(layer.getLatLng(), 13);
+      // Marker - centrer sur le marker
+      map.panTo(layer.getLatLng(), { animate: true, duration: 0.5 });
     }
 
     state.selectedCommuneLayer = layer;
@@ -1151,6 +1151,7 @@ function restart() {
   state.results = null;
 
   elements.communeSelect.value = '';
+  elements.communeSelect.classList.remove('commune-selected'); // Retire la classe de styling
   elements.btnStartQuiz.disabled = true;
 
   showStep('step-commune');
@@ -1193,10 +1194,16 @@ function shareResults() {
 // ======================
 
 function setupEventListeners() {
-  // Rendre le titre cliquable pour revenir à l'accueil
+  // Rendre le titre cliquable pour revenir à l'accueil (ancien header - legacy)
   const appTitle = document.getElementById('app-title');
   if (appTitle) {
     appTitle.addEventListener('click', restart);
+  }
+
+  // Rendre le nouveau header cliquable pour revenir à l'accueil
+  const header = document.querySelector('.header');
+  if (header) {
+    header.addEventListener('click', restart);
   }
 
   elements.communeSelect.addEventListener('change', (e) => {
@@ -1229,18 +1236,12 @@ function setupEventListeners() {
     }
   });
 
-  elements.btnStartQuiz.addEventListener('click', showCommuneInfo);
+  // Démarrer le quiz directement depuis l'écran 1 (l'écran 2 info commune a été supprimé)
+  elements.btnStartQuiz.addEventListener('click', startQuiz);
 
-  // Lien "Changer de commune"
-  const linkBackToMap = document.getElementById('link-back-to-map');
-  if (linkBackToMap) {
-    linkBackToMap.addEventListener('click', (e) => {
-      e.preventDefault();
-      showStep('step-commune');
-    });
-  }
-
-  elements.btnStartQuizConfirm.addEventListener('click', startQuiz);
+  // Les éléments suivants ont été supprimés avec l'écran 2 :
+  // - linkBackToMap (lien "Changer de commune")
+  // - btnStartQuizConfirm (bouton "Commencer le quiz" de l'écran 2)
   elements.btnPrev.addEventListener('click', prevQuestion);
   elements.btnNext.addEventListener('click', nextQuestion);
   elements.btnResults.addEventListener('click', submitResults);
@@ -1256,7 +1257,7 @@ function setupEventListeners() {
   if (linkBackToCommune) {
     linkBackToCommune.addEventListener('click', (e) => {
       e.preventDefault();
-      showStep('step-commune-info');
+      showStep('step-commune');  // Retour direct à l'écran de sélection commune (écran 2 supprimé)
     });
   }
 }
@@ -1378,3 +1379,20 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e)
 
 // Initialiser le thème au chargement
 initTheme();
+
+// ======================
+//   SERVICE WORKER - PWA
+// ======================
+
+// Enregistrement du Service Worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then((registration) => {
+        console.log('✅ Service Worker enregistré:', registration.scope);
+      })
+      .catch((error) => {
+        console.log('❌ Service Worker erreur:', error);
+      });
+  });
+}

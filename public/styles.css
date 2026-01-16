@@ -147,12 +147,116 @@ body {
   margin: 0 auto;
   background: var(--bg-card);
   border-radius: var(--radius-lg);
-  padding: 30px 40px;
+  padding: 0 40px 30px 40px; /* Supprime le padding en haut pour le header */
   box-shadow: var(--shadow-lg);
   border: 1px solid var(--border);
   transition: all var(--transition-normal);
+  overflow-x: hidden; /* Cache le débordement horizontal pour le border-radius */
+  overflow-y: visible; /* Permet au tooltip de dépasser en haut */
 }
 
+/* === NOUVEAU HEADER === */
+.header {
+  background: linear-gradient(135deg, #1e293b, #334155);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  /* Pleine largeur sans marge - compense le padding latéral du conteneur */
+  margin: 0 -40px 30px -40px; /* Marges négatives = padding latéral du .container */
+  width: calc(100% + 80px); /* Compense les marges négatives (40px * 2) */
+
+  /* Coins arrondis en haut seulement - même valeur que le conteneur parent */
+  border-radius: 12px 12px 0 0; /* var(--radius-lg) = 12px */
+
+  /* Cliquable */
+  cursor: pointer;
+  user-select: none;
+  transition: opacity 0.2s ease;
+}
+
+.header:hover {
+  opacity: 0.95;
+}
+
+.header:active {
+  opacity: 0.9;
+}
+
+.header-logo {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.header-logo svg {
+  width: 100%;
+  height: 100%;
+}
+
+.header-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Aligne les deux textes à gauche */
+  gap: 2px; /* Petit gap pour meilleur alignement visuel */
+  justify-content: center; /* Centre verticalement le texte */
+}
+
+.header-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.2;
+  text-align: left;
+}
+
+.header-tagline {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 400;
+  text-align: left;
+}
+
+/* Responsive header */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 20px 30px 20px; /* Réduit le padding latéral en tablette */
+  }
+
+  .header {
+    margin: 0 -20px 30px -20px; /* Ajuste les marges négatives */
+    width: calc(100% + 40px); /* Ajuste la largeur (20px * 2) */
+    padding: 14px 20px;
+    border-radius: 12px 12px 0 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 16px 20px 16px; /* Réduit encore plus en mobile */
+  }
+
+  .header {
+    margin: 0 -16px 20px -16px; /* Ajuste les marges négatives */
+    width: calc(100% + 32px); /* Ajuste la largeur (16px * 2) */
+    padding: 12px 16px; /* Garde un minimum de 16px pour le logo */
+    border-radius: 12px 12px 0 0;
+  }
+
+  .header-logo {
+    width: 36px;
+    height: 36px;
+  }
+  .header-title {
+    font-size: 1.1rem;
+  }
+  .header-tagline {
+    font-size: 0.8rem;
+  }
+}
+
+/* Legacy support - keep old classes for backward compatibility during transition */
 header {
   text-align: center;
   margin-bottom: 30px;
@@ -662,12 +766,29 @@ header h1 {
   background: var(--bg-card);
   color: var(--text);
   transition: all 0.3s ease;
+  font-weight: 400;
 }
 
 .commune-select-inline:focus {
   outline: none;
   border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Commune sélectionnée - mise en valeur */
+.commune-select-inline.commune-selected {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(37, 99, 235, 0.08));
+  border-color: var(--accent);
+  border-width: 2px;
+  font-weight: 600;
+  color: var(--text-primary);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.15);
+}
+
+.commune-select-inline.commune-selected:hover {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.15), rgba(37, 99, 235, 0.1));
+  border-color: var(--accent-hover);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
 }
 
 .btn-geoloc-inline {
@@ -681,9 +802,34 @@ header h1 {
   margin-top: 30px;
   text-align: center;
   display: flex;
-  gap: 15px;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
   justify-content: center;
+}
+
+/* Actions de l'écran résultats - boutons sur une ligne */
+#step-results .actions {
+  flex-direction: row;
+  gap: 12px;
   flex-wrap: wrap;
+}
+
+#step-results .actions .btn {
+  flex: 0 0 auto;
+  min-width: 160px;
+}
+
+/* Responsive : empiler sur mobile */
+@media (max-width: 600px) {
+  #step-results .actions {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  #step-results .actions .btn {
+    width: 100%;
+  }
 }
 
 /* Quiz */
@@ -880,40 +1026,121 @@ header h1 {
   margin-right: 10px;
 }
 
+/* Navigation quiz - Barre compacte avec progression */
 .quiz-nav {
+  background: var(--bg-card, #ffffff);
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: 12px;
+  padding: 12px 16px;
   display: flex;
-  gap: 12px;
-  justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
-  margin-top: 15px;
+  gap: 16px;
+  margin-top: 24px;
 
   /* Barre fixe en bas */
   position: sticky;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: 20px -30px -30px -30px;
-  padding: 20px 30px;
+  bottom: 16px;
   z-index: 100;
-
-  /* Effet glassmorphism */
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 [data-theme="dark"] .quiz-nav {
-  background: rgba(30, 41, 59, 0.95);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+  background: var(--bg-card, #1e293b);
+  border-color: var(--border, #334155);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-.quiz-nav button {
-  flex: 0 0 auto;
-  min-width: 140px;
+.quiz-nav .btn-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+  border: none;
+  font-size: 0;
+  padding: 0;
+}
+
+.quiz-nav .btn-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.quiz-nav .btn-icon.btn-prev {
+  background: transparent;
+  border: 1px solid var(--border, #e2e8f0);
+  color: var(--text-secondary, #64748b);
+}
+
+.quiz-nav .btn-icon.btn-prev:hover:not(:disabled) {
+  border-color: var(--primary, #0f172a);
+  color: var(--primary, #0f172a);
+}
+
+.quiz-nav .btn-icon.btn-prev:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.quiz-nav .progress-section {
+  flex: 1;
+  text-align: center;
+}
+
+.quiz-nav .progress-text {
+  font-size: 0.85rem;
+  color: var(--text-secondary, #64748b);
+  margin-bottom: 6px;
+}
+
+.quiz-nav .progress-bar {
+  height: 6px;
+  background: var(--border, #e2e8f0);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.quiz-nav .progress-fill {
+  height: 100%;
+  background: var(--primary, #0f172a);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.quiz-nav .btn-icon.btn-next {
+  background: var(--primary, #0f172a);
+  color: white;
+}
+
+.quiz-nav .btn-icon.btn-next:hover:not(:disabled) {
+  background: #1e293b;
+}
+
+.quiz-nav .btn-icon.btn-next:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Bouton résultats (dernier écran) */
+.quiz-nav .btn-results {
+  background: var(--success, #059669);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: none;
+}
+
+.quiz-nav .btn-results:hover {
+  background: #047857;
 }
 
 /* Results */
@@ -2039,7 +2266,8 @@ a {
 }
 
 /* Quiz nav buttons smooth transitions */
-.quiz-nav .btn {
+.quiz-nav .btn-icon,
+.quiz-nav .btn-results {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
 }
 
@@ -2087,21 +2315,7 @@ footer a:hover {
   color: var(--accent-hover);
 }
 
-.contribute-link {
-  margin-top: 30px;
-  text-align: center;
-}
-
-.contribute-link a {
-  color: var(--primary);
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 1.1rem;
-}
-
-.contribute-link a:hover {
-  text-decoration: underline;
-}
+/* Style déplacé dans .footer-line .contribute-link */
 
 /* Responsive */
 /* ======================
@@ -2173,19 +2387,17 @@ footer a:hover {
 
   /* Quiz navigation - sticky bar */
   .quiz-nav {
-    flex-direction: row;
-    justify-content: space-between;
+    padding: 10px 12px;
     gap: 12px;
-    margin: 15px -16px -16px -16px;
-    padding: 16px;
   }
 
-  .quiz-nav button {
-    flex: 1;
-    min-width: 120px;
-    min-height: 48px;
-    font-size: 0.95rem;
-    padding: 12px 16px;
+  .quiz-nav .btn-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .quiz-nav .progress-text {
+    font-size: 0.8rem;
   }
 
   #step-quiz {
@@ -2421,10 +2633,22 @@ footer a:hover {
     font-size: 0.9rem;
   }
 
-  .quiz-nav button {
-    min-width: 100px;
-    font-size: 0.85rem;
-    padding: 10px 12px;
+  .quiz-nav {
+    padding: 8px 10px;
+    gap: 10px;
+  }
+
+  .quiz-nav .btn-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .quiz-nav .progress-text {
+    font-size: 0.75rem;
+  }
+
+  .quiz-nav .progress-bar {
+    height: 5px;
   }
 
   .themes-grid {
@@ -2661,5 +2885,225 @@ footer a:hover {
     right: 16px;
     width: 44px;
     height: 44px;
+  }
+}
+
+/* === BANDEAU INFOS COMMUNE SOUS LA CARTE === */
+.commune-info-bar {
+  background: var(--bg-card, #ffffff);
+  border: 1px solid var(--border, #e2e8f0);
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+  padding: 14px 20px; /* Padding normal */
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  position: relative; /* Important pour le positionnement du tooltip */
+  overflow: visible; /* Permet au tooltip de dépasser vers le haut */
+}
+
+.commune-info-bar.hidden {
+  display: none;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: var(--text-secondary, #64748b);
+}
+
+.info-item-icon {
+  font-size: 1.1rem;
+}
+
+.info-item-value {
+  font-weight: 600;
+  color: var(--text-primary, #0f172a);
+}
+
+.info-separator {
+  width: 1px;
+  height: 24px;
+  background: var(--border, #e2e8f0);
+}
+
+/* Tooltip pour la liste des candidats */
+.candidats-tooltip-trigger {
+  position: relative;
+  cursor: help;
+}
+
+.candidats-tooltip-trigger:hover .candidats-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0); /* Animation vers le haut */
+}
+
+.candidats-tooltip {
+  position: absolute;
+  bottom: calc(100% + 10px); /* Affiche vers le HAUT */
+  left: 50%;
+  transform: translateX(-50%) translateY(5px);
+  background: var(--primary, #0f172a);
+  color: white;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  z-index: 1000; /* Z-index élevé pour passer au-dessus de tout */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  max-width: 350px; /* Limite la largeur */
+  min-width: 200px; /* Largeur minimale */
+}
+
+.candidats-tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%; /* Flèche en bas du tooltip */
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--primary, #0f172a); /* Flèche pointant vers le bas */
+}
+
+.candidats-tooltip ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  /* Pas de scroll - affiche toute la liste */
+}
+
+.candidats-tooltip li {
+  padding: 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.candidats-tooltip li:not(:last-child) {
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+
+.candidat-sortant {
+  font-size: 0.7rem;
+  background: rgba(255,255,255,0.2);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.tooltip-icon {
+  width: 14px;
+  height: 14px;
+  color: var(--text-secondary, #64748b);
+  flex-shrink: 0;
+}
+
+/* Adapter la carte pour qu'elle se colle au bandeau */
+#map-container {
+  border-radius: 12px 12px 0 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .commune-info-bar {
+    justify-content: flex-start;
+    gap: 12px 20px;
+  }
+  .info-separator {
+    display: none;
+  }
+}
+
+/* === MENTION TRANSPARENCE === */
+/* Style déplacé dans .footer-line .transparency-text */
+
+/* === FORCE : SUPPRIMER TOUT ESPACE AU-DESSUS DU HEADER === */
+.header {
+  margin-top: 0 !important;
+}
+
+.container {
+  padding-top: 0 !important;
+}
+
+.container > .header:first-child {
+  margin-top: 0 !important;
+}
+
+/* Media queries - garantir pas d'espace en responsive */
+@media (max-width: 768px) {
+  .container {
+    padding-top: 0 !important;
+  }
+
+  .header {
+    margin-top: 0 !important;
+    margin-bottom: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding-top: 0 !important;
+  }
+
+  .header {
+    margin-top: 0 !important;
+    margin-bottom: 20px;
+  }
+}
+
+/* === FOOTER SUR UNE LIGNE === */
+.footer-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border, #e2e8f0);
+}
+
+.footer-line .transparency-text {
+  font-size: 0.8rem;
+  color: var(--text-secondary, #64748b);
+  margin: 0;
+  text-align: left;
+}
+
+.footer-line .contribute-link {
+  font-size: 0.85rem;
+  color: var(--text-secondary, #64748b);
+  margin: 0;
+}
+
+.footer-line .contribute-link a {
+  color: var(--accent, #2563eb);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.footer-line .contribute-link a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive : empiler sur mobile */
+@media (max-width: 600px) {
+  .footer-line {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
   }
 }
