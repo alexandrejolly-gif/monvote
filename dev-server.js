@@ -171,10 +171,7 @@ const server = createServer(async (req, res) => {
   // Handle static files
   let filePath = join(__dirname, 'public', req.url === '/' ? 'index.html' : req.url);
 
-  // Handle admin routes
-  if (req.url.startsWith('/admin')) {
-    filePath = join(__dirname, 'admin', req.url === '/admin' || req.url === '/admin/' ? 'index.html' : req.url.replace('/admin/', ''));
-  }
+  // Admin files are now in public/admin, so they'll be served automatically
 
   try {
     const content = await readFile(filePath);
