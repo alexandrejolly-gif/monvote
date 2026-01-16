@@ -931,7 +931,7 @@ function updateQuizNav() {
 
   if (currentQ === totalQ - 1) {
     elements.btnNext.style.display = 'none';
-    elements.btnResults.style.display = state.responses[currentQuestion.id] ? 'inline-block' : 'none';
+    elements.btnResults.style.display = state.responses[currentQuestion.id] ? 'flex' : 'none';
   } else {
     elements.btnNext.style.display = 'inline-block';
     elements.btnResults.style.display = 'none';
@@ -1029,9 +1029,6 @@ function showResults() {
       const hasPropositions = result.candidat.propositions && result.candidat.propositions.length > 0;
       const isMaire = result.candidat.maire_sortant === true;
 
-      // Créer les initiales pour l'avatar
-      const initiales = `${(result.candidat.prenom || '')[0] || ''}${(result.candidat.nom || '')[0] || ''}`.toUpperCase();
-
       // Calculer les top 3 points d'accord
       const topMatches = getTopMatchingPoints(result);
 
@@ -1045,22 +1042,17 @@ function showResults() {
             <div class="result-header">
               <div class="result-rank">${index + 1}</div>
 
-              <!-- Avatar avec initiales -->
-              <div class="result-avatar">
-                <div class="avatar-circle">${initiales}</div>
-              </div>
-
               <div class="result-identity">
                 <div class="result-name-line">
                   <span class="result-name">${result.candidat.prenom || ''} ${result.candidat.nom}</span>
-                  ${isMaire ? `<span class="badge-maire">${getIcon('building', 16)} Maire sortant</span>` : ''}
+                  ${isMaire ? `<span class="badge-maire">${getIcon('building', 16)} Maire</span>` : ''}
                   ${hasPropositions ? `
                     <button class="btn-toggle-proposals" onclick="togglePropositions(${index})" aria-label="Voir les propositions">
                       <span class="toggle-arrow" id="toggle-arrow-${index}">▼</span>
                     </button>
                   ` : ''}
                 </div>
-                <div class="result-meta">${result.candidat.parti || ''} ${result.candidat.liste ? '- ' + result.candidat.liste : ''}</div>
+                <div class="result-meta">${result.candidat.liste || ''} ${result.candidat.parti ? '(' + result.candidat.parti + ')' : ''}</div>
               </div>
 
               <!-- Barre de progression horizontale intégrée -->
