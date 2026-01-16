@@ -99,7 +99,7 @@ export default async function handler(req, res) {
 
   // Call the selected handler
   try {
-    return await selectedHandler.default(req, res);
+    return await selectedHandler(req, res);
   } catch (error) {
     console.error(`Error in admin action ${action}:`, error);
     return res.status(500).json({
